@@ -1,4 +1,4 @@
-package event;
+package Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,7 +57,7 @@ public class PartEditorController {
     void onClickBtnMakes(ActionEvent event) {
         Parent makes = null;
         try{
-            makes = FXMLLoader.load(getClass().getResource("../event/makebox.fxml"));
+            makes = FXMLLoader.load(getClass().getResource("../View/make_box.fxml"));
             Scene makesScene = new Scene(makes,400,150);
             Stage stage= new Stage();
             stage.setTitle("New Make");
@@ -74,7 +74,7 @@ public class PartEditorController {
     void onClickBtnNewCategory(ActionEvent event) {
         Parent categories = null;
         try{
-            categories = FXMLLoader.load(getClass().getResource("categorybox.fxml"));
+            categories = FXMLLoader.load(getClass().getResource("../View/categorybox.fxml"));
             Scene categoriesScene = new Scene(categories,390,150);
             Stage stage= new Stage();
             stage.setTitle("New Category");
@@ -90,7 +90,7 @@ public class PartEditorController {
     void onClickBtnNewModel(ActionEvent event) {
         Parent models = null;
         try{
-            models = FXMLLoader.load(getClass().getResource("modelbox.fxml"));
+            models = FXMLLoader.load(getClass().getResource("../View/model_box.fxml"));
             Scene modelsScene = new Scene(models,390,150);
             Stage stage= new Stage();
             stage.setTitle("New Model");

@@ -1,4 +1,4 @@
-package event;
+package Controller;
 
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
@@ -6,7 +6,7 @@ package event;
         import javafx.scene.control.TextField;
         import javafx.stage.Stage;
 
-public class makeBoxController {
+public class MakeBoxController {
 
     @FXML
     private Button btnOK;

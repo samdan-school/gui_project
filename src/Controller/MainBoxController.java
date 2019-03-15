@@ -1,4 +1,4 @@
-package event;
+package Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -115,7 +115,7 @@ public class MainBoxController {
     void onClickBtnNewAutoPart(ActionEvent event) {
         Parent part = null;
         try{
-            part = FXMLLoader.load(getClass().getResource("../event/PartEditor.fxml"));
+            part = FXMLLoader.load(getClass().getResource("../View/part_editor.fxml"));
             Scene partScene = new Scene(part,600,250);
             Stage stage= new Stage();
             stage.setTitle("Part Editor");
