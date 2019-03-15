@@ -3,6 +3,7 @@ package Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -124,17 +125,18 @@ public class MainBoxController {
         }catch (IOException e){
             e.printStackTrace();
         }
-
     }
 
     @FXML
     void onClickBtnNewCustomerOrder(ActionEvent event) {
-
+        txtOpen.setText(null);
+        txtTaxAmount.setText(null);
+        txtPartsTotal.setText(null);
+        txtOrderTotal.setText(null);
     }
 
     @FXML
     void onClickBtnOpen(ActionEvent event) {
-
     }
 
     @FXML
