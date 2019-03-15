@@ -1,3 +1,5 @@
+package project;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +13,6 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("View/main_box.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 740, 540));
-        DBUtil.dbConnect();
         primaryStage.show();
     }
 

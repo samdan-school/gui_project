@@ -1,3 +1,5 @@
+package project;
+
 import java.sql.*;
 
 import com.sun.rowset.CachedRowSetImpl;
@@ -31,7 +33,7 @@ public class DBUtil {
     }
 
     //DB Execute Query Operation
-    public static ResultSet dbExecuteQuery(String queryStmt) throws SQLException, ClassNotFoundException {
+    public static ResultSet dbExecuteQuery(String queryStmt) throws SQLException {
         Statement stmt = null;
         ResultSet resultSet = null;
         CachedRowSetImpl crs = null;
@@ -68,7 +70,7 @@ public class DBUtil {
     }
 
     //DB Execute Update (For Update/Insert/Delete) Operation
-    public static void dbExecuteUpdate(String sqlStmt) throws SQLException, ClassNotFoundException {
+    public static void dbExecuteUpdate(String sqlStmt) throws SQLException {
         //Declare statement as null
         Statement stmt = null;
         try {

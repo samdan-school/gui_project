@@ -1,4 +1,4 @@
-package Controller;
+package project.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -93,7 +93,7 @@ public class PartEditorController {
             models = FXMLLoader.load(getClass().getResource("../View/model_box.fxml"));
             Scene modelsScene = new Scene(models,390,150);
             Stage stage= new Stage();
-            stage.setTitle("New Model");
+            stage.setTitle("New project.Model");
             stage.setScene(modelsScene);
             stage.show();
         }catch (IOException e){
