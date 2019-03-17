@@ -33,7 +33,7 @@
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>
             </Button>
-            <Label text="project.Model:">
+            <Label prefHeight="21.0" prefWidth="111.0" text="Model:">
                <GridPane.margin>
                   <Insets left="50.0" />
                </GridPane.margin>
@@ -41,7 +41,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="txtCategory" maxHeight="30.0" maxWidth="250.0" GridPane.columnIndex="1" GridPane.columnSpan="2">
+            <TextField fx:id="txtModel" maxHeight="30.0" maxWidth="250.0" GridPane.columnIndex="1" GridPane.columnSpan="2">
                <GridPane.margin>
                   <Insets left="5.0" right="5.0" />
                </GridPane.margin>

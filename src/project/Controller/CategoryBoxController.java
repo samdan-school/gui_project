@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import project.DBUtil;
+
+import java.sql.SQLException;
 
 public class CategoryBoxController {
 
@@ -25,7 +28,11 @@ public class CategoryBoxController {
 
     @FXML
     void onClickBtnOk(ActionEvent event) {
-
+        try {
+            DBUtil.dbExecuteUpdate("INSERT INTO category(category_name) VALUES('"+txtCategory.getText()+"')");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -9,7 +9,7 @@ public class DBUtil {
     private static Connection conn = null;
     private static final String connStr = "jdbc:mysql://localhost:3306/gui_lab4";
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "root";
 
     public static void dbConnect() throws SQLException {
         try {
