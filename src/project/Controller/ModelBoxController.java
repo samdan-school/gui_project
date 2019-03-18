@@ -27,11 +27,16 @@ public class ModelBoxController {
 
     @FXML
     void onClickBtnOk(ActionEvent event) {
+        if ((txtModel.getText()).isEmpty()) {
+            return;
+        }
+
         try {
             DBUtil.dbExecuteUpdate("INSERT INTO model(model_name) VALUES('"+txtModel.getText()+"')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        onClickBtnCancel(event);
     }
 
 }

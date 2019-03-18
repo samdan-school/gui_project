@@ -41,7 +41,7 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </Label>
-            <Label text="project.Model:" GridPane.rowIndex="2">
+            <Label text="Model:" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
@@ -106,7 +106,7 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="btnNewModel" maxWidth="120.0" mnemonicParsing="false" onAction="#onClickBtnNewModel" text="New project.Model:" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <Button fx:id="btnNewModel" maxWidth="120.0" mnemonicParsing="false" onAction="#onClickBtnNewModel" text="New Model:" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>

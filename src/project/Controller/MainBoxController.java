@@ -17,7 +17,7 @@ import java.io.IOException;
 public class MainBoxController {
 
     @FXML
-    private TreeView<?> tvwAutoParts;
+    private TreeView<String> tvwAutoParts;
 
     @FXML
     private Button btnNewAutoPart;
