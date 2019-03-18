@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class PartService {
-    public ObservableList<String> makeList(){
+    public static ObservableList<String> makeList(){
         ObservableList<String> data = FXCollections.observableArrayList();
         try {
             ResultSet result =  DBUtil.dbExecuteQuery("SELECT make_name FROM make");
@@ -20,7 +20,7 @@ public class PartService {
         }
         return null;
     }
-    public ObservableList modelList(){
+    public static ObservableList<String> modelList(){
         ObservableList<String> data = FXCollections.observableArrayList();
         try {
             ResultSet result =  DBUtil.dbExecuteQuery("SELECT model_name FROM model");
@@ -33,7 +33,7 @@ public class PartService {
         }
         return null;
     }
-    public ObservableList categoryList(){
+    public static ObservableList<String> categoryList(){
         ObservableList<String> data = FXCollections.observableArrayList();
         try {
             ResultSet result =  DBUtil.dbExecuteQuery("SELECT category_name FROM category");

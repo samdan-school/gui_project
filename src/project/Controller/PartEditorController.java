@@ -11,16 +11,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import project.DBUtil;
+import project.JavaFXUtil;
 import project.Service.PartService;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class PartEditorController {
-    PartService partService = new PartService();
+    private ObservableList<String> makeList;
+    private ObservableList<String> modelList;
+    private ObservableList<String> categoryList;
+
     @FXML
     private ChoiceBox<Integer> cbxYear;
 
@@ -68,32 +72,11 @@ public class PartEditorController {
         Parent makes = null;
         try{
             makes = FXMLLoader.load(getClass().getResource("../View/make_box.fxml"));
-            Scene makesScene = new Scene(makes,400,150);
-            Stage stage= new Stage();
-            stage.setTitle("New Make");
-            stage.setScene(makesScene);
-            stage.show();
+
+            JavaFXUtil.openNewStage(makes, "New Make", 400, 150);
         }catch (IOException e){
             e.printStackTrace();
         }
-
-
-    }
-
-    @FXML
-    void onClickBtnNewCategory(ActionEvent event) {
-        Parent categories = null;
-        try{
-            categories = FXMLLoader.load(getClass().getResource("../View/categorybox.fxml"));
-            Scene categoriesScene = new Scene(categories,390,150);
-            Stage stage= new Stage();
-            stage.setTitle("New Category");
-            stage.setScene(categoriesScene);
-            stage.show();
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
     }
 
     @FXML
@@ -101,15 +84,21 @@ public class PartEditorController {
         Parent models = null;
         try{
             models = FXMLLoader.load(getClass().getResource("../View/model_box.fxml"));
-            Scene modelsScene = new Scene(models,390,150);
-            Stage stage= new Stage();
-            stage.setTitle("New project.Model");
-            stage.setScene(modelsScene);
-            stage.show();
+            JavaFXUtil.openNewStage(models, "New Model", 400, 150);
         }catch (IOException e){
             e.printStackTrace();
         }
+    }
 
+    @FXML
+    void onClickBtnNewCategory(ActionEvent event) {
+        Parent categories = null;
+        try{
+            categories = FXMLLoader.load(getClass().getResource("../View/categorybox.fxml"));
+            JavaFXUtil.openNewStage(categories, "New Category", 400, 150);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -126,29 +115,57 @@ public class PartEditorController {
         }
     }
 
+    public PartEditorController() {
+        this.makeList = PartService.makeList();
+        this.modelList = PartService.modelList();
+        this.categoryList = PartService.categoryList();
+//
+//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/part_editor.fxml"));
+//        try {
+//            Pane root = fxmlLoader.load();
+//            Scene scene = new Scene(root); // optionally specify dimensions too
+//            root.setScene();
+//        } catch (IOException exception) {
+//            throw new RuntimeException(exception);
+//        }
+    }
+
     @FXML
     void initialize() {
         ObservableList<Integer> years = FXCollections.observableArrayList();
-        for (int i = 1970; i < 2020; i++) {
+        for (int i = 2000; i < 2020; i++) {
             years.add(i);
         }
         this.cbxYear.setItems(years);
-        this.cbxMakes.setItems(partService.makeList());
-        this.cbxCategories.setItems(partService.categoryList());
-        this.cbxModels.setItems(partService.modelList());
+        this.cbxMakes.setItems(makeList);
+//        this.cbxModels.setItems(partService.modelList());
+//        this.cbxCategories.setItems(partService.categoryList());
     }
+
+    public void setMakeList(ObservableList<String> makeList) {
+        this.makeList = makeList;
+    }
+
+    public void setModelList(ObservableList<String> modelList) {
+        this.modelList = modelList;
+    }
+
+    public void setCategoryList(ObservableList<String> categoryList) {
+        this.categoryList = categoryList;
+    }
+
     @FXML
     void cbxCategoriesClick(MouseEvent event) {
-        this.cbxCategories.setItems(partService.categoryList());
+        this.cbxCategories.setItems(PartService.categoryList());
     }
 
     @FXML
     void cbxMakesClick(MouseEvent event) {
-        this.cbxMakes.setItems(partService.makeList());
+        this.cbxMakes.setItems(PartService.makeList());
     }
 
     @FXML
     void cbxModelsClick(MouseEvent event) {
-        this.cbxModels.setItems(partService.modelList());
+        this.cbxModels.setItems(PartService.modelList());
     }
 }

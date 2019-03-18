@@ -2,12 +2,16 @@ package project.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import project.DBUtil;
+import project.JavaFXUtil;
+import project.Service.PartService;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class MakeBoxController {
@@ -34,12 +38,13 @@ public class MakeBoxController {
         }
 
         try {
-            String sql = "INSERT INTO make(make_name) VALUES('" + txtMake.getText() +"')";
+            String sql = "INSERT INTO make(make_name) VALUES('" + txtMake.getText() + "')";
             DBUtil.dbExecuteUpdate(sql);
+            PartEditorController ctr = new PartEditorController();
+            ctr.setMakeList(PartService.makeList());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         onClickBtnCancel(event);
     }
-
 }

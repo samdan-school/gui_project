@@ -38,5 +38,4 @@ public class ModelBoxController {
         }
         onClickBtnCancel(event);
     }
-
 }

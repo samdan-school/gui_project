@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
+import project.JavaFXUtil;
 
 import java.io.IOException;
 
@@ -116,11 +117,7 @@ public class MainBoxController {
         Parent part = null;
         try{
             part = FXMLLoader.load(getClass().getResource("../View/part_editor.fxml"));
-            Scene partScene = new Scene(part,600,250);
-            Stage stage= new Stage();
-            stage.setTitle("Part Editor");
-            stage.setScene(partScene);
-            stage.show();
+            JavaFXUtil.openNewStage(part, "Part Editor", 600, 250);
         }catch (IOException e){
             e.printStackTrace();
         }

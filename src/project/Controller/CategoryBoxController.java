@@ -28,11 +28,15 @@ public class CategoryBoxController {
 
     @FXML
     void onClickBtnOk(ActionEvent event) {
+        if ((txtCategory.getText()).isEmpty()) {
+            return;
+        }
+
         try {
             DBUtil.dbExecuteUpdate("INSERT INTO category(category_name) VALUES('"+txtCategory.getText()+"')");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        onClickBtnCancel(event);
     }
-
 }
