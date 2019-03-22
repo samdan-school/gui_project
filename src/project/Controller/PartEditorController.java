@@ -116,21 +116,10 @@ public class PartEditorController {
     @FXML
     void onClickBtnSubmit(ActionEvent event) {
         try {
-            ResultSet makeRes = DBUtil.dbExecuteQuery("SELECT * FROM make WHERE make_name = '" +
-                    cbxMakes.getSelectionModel().getSelectedItem() + "'");
-            makeRes.next();
-            ResultSet modelRes = DBUtil.dbExecuteQuery("SELECT * FROM model WHERE model_name = '" +
-                    cbxModels.getSelectionModel().getSelectedItem() + "'");
-            modelRes.next();
-            ResultSet categoryRes = DBUtil.dbExecuteQuery("SELECT * FROM category WHERE category_name = '" +
-                    cbxCategories.getSelectionModel().getSelectedItem() + "'");
-            categoryRes.next();
-
-
             String query = "INSERT INTO part(make_name, model_name, category_name, unit_price, part_year, part_name) VALUES("
-                    + "'" + makeRes.getString("make_name") + "', "
-                    + "'" + modelRes.getString("model_name") + "', "
-                    + "'" + categoryRes.getString("category_name") + "', "
+                    + "'" + cbxMakes.getSelectionModel().getSelectedItem() + "', "
+                    + "'" + cbxModels.getSelectionModel().getSelectedItem() + "', "
+                    + "'" + cbxCategories.getSelectionModel().getSelectedItem() + "', "
                     + txtUnitPrice.getText() + ", "
                     + cbxYear.getSelectionModel().getSelectedItem() + ", "
                     + "'" + txtPartName.getText() + "'"
