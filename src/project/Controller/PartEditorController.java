@@ -25,6 +25,7 @@ public class PartEditorController {
     private ObservableList<String> makeList;
     private ObservableList<String> modelList;
     private ObservableList<String> categoryList;
+    private String selectedMake = "";
 
     @FXML
     private ChoiceBox<Integer> cbxYear;
@@ -88,8 +89,9 @@ public class PartEditorController {
         Parent models = null;
         try {
             models = modelUtil.getLoader().load();
-            ModelBoxController makeCtr = modelUtil.getLoader().getController();
-            makeCtr.setCbxModels(this.cbxModels);
+            ModelBoxController modelCtr = modelUtil.getLoader().getController();
+            modelCtr.setCbxModels(this.cbxModels);
+            modelCtr.setMakeName(this.selectedMake);
             modelUtil.openNewStage(models, "New Model", 400, 150);
         } catch (IOException e) {
             e.printStackTrace();
@@ -140,7 +142,6 @@ public class PartEditorController {
 
     public PartEditorController() {
         this.makeList = PartService.makeList();
-        this.modelList = PartService.modelList();
         this.categoryList = PartService.categoryList();
     }
 
@@ -152,7 +153,6 @@ public class PartEditorController {
         }
         this.cbxYear.setItems(years);
         this.cbxMakes.setItems(makeList);
-        this.cbxModels.setItems(modelList);
         this.cbxCategories.setItems(categoryList);
 
         this.cbxModels.setDisable(true);
@@ -162,6 +162,9 @@ public class PartEditorController {
                 .getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldV, newV) -> {
+                    selectedMake = newV;
+                    this.setModelList(PartService.modelList(newV));
+                    this.cbxModels.setItems(modelList);
                     this.cbxModels.setDisable(false);
                     this.btnNewModel.setDisable(false);
                 });

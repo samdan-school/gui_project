@@ -20,10 +20,10 @@ public class PartService {
         }
         return null;
     }
-    public static ObservableList<String> modelList(){
+    public static ObservableList<String> modelList(String makeName){
         ObservableList<String> data = FXCollections.observableArrayList();
         try {
-            ResultSet result =  DBUtil.dbExecuteQuery("SELECT model_name FROM model");
+            ResultSet result =  DBUtil.dbExecuteQuery("SELECT model_name FROM make_model WHERE make_name ='" + makeName +"'");
             while(result.next()) {
                 data.add(result.getObject(1).toString());
             }

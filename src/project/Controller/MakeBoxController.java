@@ -4,6 +4,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -44,7 +45,9 @@ public class MakeBoxController {
             String sql = "INSERT INTO make(make_name) VALUES('" + txtMake.getText() + "')";
             DBUtil.dbExecuteUpdate(sql);
             this.cbxMakes.setItems(PartService.makeList());
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            Stage stage = (Stage)((Node)(event).getSource()).getScene().getWindow();
+            JavaFXUtil.alertError(stage, "Make Insert Error", "Make insertion failed", "Please check value");
             e.printStackTrace();
         }
         onClickBtnCancel(event);

@@ -70,7 +70,7 @@ public class DBUtil {
     }
 
     //DB Execute Update (For Update/Insert/Delete) Operation
-    public static int dbExecuteUpdate(String sqlStmt) throws SQLException {
+    public static void dbExecuteUpdate(String sqlStmt) throws SQLException {
         //Declare statement as null
         PreparedStatement stmt = null;
         int affectedRows = 0;
@@ -81,19 +81,7 @@ public class DBUtil {
             //Create Statement
             stmt = conn.prepareStatement(sqlStmt, Statement.RETURN_GENERATED_KEYS);
             //Run executeUpdate operation with given sql statement
-            affectedRows = stmt.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
-            }
-
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    returnId = generatedKeys.getInt(1);
-                } else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
-                }
-            }
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Problem occurred at executeUpdate operation : " + e);
             throw e;
@@ -105,6 +93,5 @@ public class DBUtil {
             //Close connection
             dbDisconnect();
         }
-        return returnId;
     }
 }

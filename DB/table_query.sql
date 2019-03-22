@@ -9,6 +9,14 @@ CREATE TABLE model (
 	model_name VARCHAR(50) PRIMARY KEY
 );
 
+CREATE TABLE make_model (
+	make_name VARCHAR(50),
+	model_name VARCHAR(50),
+  PRIMARY KEY (make_name, model_name),
+	FOREIGN KEY (make_name) REFERENCES make(make_name),
+	FOREIGN KEY (model_name) REFERENCES model(model_name)
+);
+
 CREATE TABLE category (
 	category_name VARCHAR(100) PRIMARY KEY
 );
@@ -18,7 +26,6 @@ CREATE TABLE part (
 	make_name VARCHAR(100) NOT NULL,
 	model_name VARCHAR(100) NOT NULL,
 	category_name VARCHAR(100) NOT NULL,
-	unit_price DECIMAL(15,2),
 	part_year INT(4),
 	part_name VARCHAR(100) UNIQUE,
 	FOREIGN KEY (make_name) REFERENCES make(make_name),
