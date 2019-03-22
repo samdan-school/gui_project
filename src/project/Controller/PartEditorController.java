@@ -73,7 +73,8 @@ public class PartEditorController {
         Parent makes = null;
         try {
             makes = makeUtil.getLoader().load();
-            makeUtil.getController().setMakeList(makeList);
+            System.out.println(makeUtil.getMyController());
+//            makeUtil.getController().setMakeList(makeList);
             makeUtil.openNewStage(makes, "New Make", 400, 150);
         } catch (IOException e) {
             e.printStackTrace();
@@ -121,9 +122,9 @@ public class PartEditorController {
         this.modelList = PartService.modelList();
         this.categoryList = PartService.categoryList();
 
-        makeUtil = new JavaFXUtil<>("../View/make_box.fxml");
-        modelUtil = new JavaFXUtil<>("../View/model_box.fxml");
-        categoryUtil = new JavaFXUtil<>("../View/category_box.fxml");
+        makeUtil = new JavaFXUtil<>(getClass().getResource("../View/make_box.fxml"));
+        modelUtil = new JavaFXUtil<>(getClass().getResource("../View/model_box.fxml"));
+        categoryUtil = new JavaFXUtil<>(getClass().getResource("../View/category_box.fxml"));
     }
 
     @FXML
@@ -152,7 +153,7 @@ public class PartEditorController {
 
     @FXML
     void cbxCategoriesClick(MouseEvent event) {
-        this.cbxCategories.setItems(PartService.categoryList());
+//        this.cbxCategories.setItems(PartService.categoryList());
     }
 
     @FXML

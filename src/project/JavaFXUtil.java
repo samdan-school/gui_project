@@ -10,9 +10,10 @@ public class JavaFXUtil<T> {
     private FXMLLoader loader;
     private T controller;
 
-    public JavaFXUtil(String path) {
+    public JavaFXUtil(java.net.URL location) {
         this.loader = new FXMLLoader();
-        loader.setLocation(project.Controller.MainBoxController.class.getResource(path));
+        loader.setLocation(location);
+        System.out.println(loader);
         this.controller = loader.getController();
     }
 
@@ -29,7 +30,7 @@ public class JavaFXUtil<T> {
         return loader;
     }
 
-    public T getController() {
+    public T getMyController() {
         return controller;
     }
 }

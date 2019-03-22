@@ -16,7 +16,7 @@ import project.JavaFXUtil;
 import java.io.IOException;
 
 public class MainBoxController {
-    private JavaFXUtil<PartEditorController> partUtil = new JavaFXUtil<>("../View/part_editor.fxml");
+    private JavaFXUtil<PartEditorController> partUtil = new JavaFXUtil<>(getClass().getResource("../View/part_editor.fxml"));
 
     @FXML
     private TreeView<String> tvwAutoParts;
@@ -117,8 +117,7 @@ public class MainBoxController {
     void onClickBtnNewAutoPart(ActionEvent event) {
         Parent part = null;
         try{
-            FXMLLoader loader = partUtil.getLoader();
-            part = loader.load();
+            part = partUtil.getLoader().load();
             partUtil.openNewStage(part, "New Part", 600, 250);
         }catch (Exception e){
             e.printStackTrace();
