@@ -6,22 +6,22 @@ import javafx.beans.property.SimpleStringProperty;
 
 public class Part {
     private final SimpleIntegerProperty year;
-    private final SimpleStringProperty make;
-    private final SimpleStringProperty projectModel;
-    private final SimpleStringProperty category;
+    private final SimpleStringProperty makeName;
+    private final SimpleStringProperty modelName;
+    private final SimpleStringProperty categoryName;
     private final SimpleStringProperty partName;
     private final SimpleIntegerProperty partId;
     private final SimpleDoubleProperty price;
 
     public Part() {
-        this(1900, "", "", "", "", 0, 0);
+        this(-1, "", "", "", "", 0, 0);
     }
 
     public Part(int year, String make, String projectModel, String category, String partName, int partId, double price) {
         this.year = new SimpleIntegerProperty(year);
-        this.make = new SimpleStringProperty(make);
-        this.projectModel = new SimpleStringProperty(projectModel);
-        this.category = new SimpleStringProperty(category);
+        this.makeName = new SimpleStringProperty(make);
+        this.modelName = new SimpleStringProperty(projectModel);
+        this.categoryName = new SimpleStringProperty(category);
         this.partName = new SimpleStringProperty(partName);
         this.partId = new SimpleIntegerProperty(partId);
         this.price = new SimpleDoubleProperty(price);
@@ -44,27 +44,27 @@ public class Part {
     }
 
     public String getMake() {
-        return make.get();
+        return makeName.get();
     }
 
     public void setMake(String make) {
-        this.make.set(make);
+        this.makeName.set(make);
     }
 
     public String getProjectModel() {
-        return projectModel.get();
+        return modelName.get();
     }
 
     public void setProjectModel(String projectModel) {
-        this.projectModel.set(projectModel);
+        this.modelName.set(projectModel);
     }
 
     public String getCategory() {
-        return category.get();
+        return categoryName.get();
     }
 
     public void setCategory(String category) {
-        this.category.set(category);
+        this.categoryName.set(category);
     }
 
     public double getPrice() {

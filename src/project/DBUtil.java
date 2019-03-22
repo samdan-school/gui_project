@@ -27,7 +27,7 @@ public class DBUtil {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
@@ -70,16 +70,30 @@ public class DBUtil {
     }
 
     //DB Execute Update (For Update/Insert/Delete) Operation
-    public static void dbExecuteUpdate(String sqlStmt) throws SQLException {
+    public static int dbExecuteUpdate(String sqlStmt) throws SQLException {
         //Declare statement as null
-        Statement stmt = null;
+        PreparedStatement stmt = null;
+        int affectedRows = 0;
+        int returnId = -1;
         try {
             //Connect to DB (Establish Oracle Connection)
             dbConnect();
             //Create Statement
-            stmt = conn.createStatement();
+            stmt = conn.prepareStatement(sqlStmt, Statement.RETURN_GENERATED_KEYS);
             //Run executeUpdate operation with given sql statement
-            stmt.executeUpdate(sqlStmt);
+            affectedRows = stmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Creating user failed, no rows affected.");
+            }
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    returnId = generatedKeys.getInt(1);
+                } else {
+                    throw new SQLException("Creating user failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             System.out.println("Problem occurred at executeUpdate operation : " + e);
             throw e;
@@ -91,5 +105,6 @@ public class DBUtil {
             //Close connection
             dbDisconnect();
         }
+        return returnId;
     }
 }

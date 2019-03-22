@@ -35,7 +35,7 @@ public class ModelBoxController {
         }
 
         try {
-            DBUtil.dbExecuteUpdate("INSERT INTO model(model_name) VALUES('"+txtModel.getText()+"')");
+            int modelId = DBUtil.dbExecuteUpdate("INSERT INTO model(model_name) VALUES('"+txtModel.getText()+"')");
             this.cbxModels.setItems(PartService.modelList());
         } catch (SQLException e) {
             e.printStackTrace();
