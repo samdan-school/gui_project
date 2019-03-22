@@ -3,13 +3,16 @@ package project.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import project.DBUtil;
+import project.Service.PartService;
 
 import java.sql.SQLException;
 
 public class CategoryBoxController {
+    private ChoiceBox<String> cbxCategories;
 
     @FXML
     private Button btnOK;
@@ -34,9 +37,14 @@ public class CategoryBoxController {
 
         try {
             DBUtil.dbExecuteUpdate("INSERT INTO category(category_name) VALUES('"+txtCategory.getText()+"')");
+            this.cbxCategories.setItems(PartService.categoryList());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         onClickBtnCancel(event);
+    }
+
+    public void setCbxCategories(ChoiceBox<String> cbxCategories) {
+        this.cbxCategories = cbxCategories;
     }
 }

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 
 public class MakeBoxController {
 
-    private ObservableList<String> makeList;
+    private ChoiceBox<String> cbxMakes;
     @FXML
     private Button btnOK;
 
@@ -42,14 +43,14 @@ public class MakeBoxController {
         try {
             String sql = "INSERT INTO make(make_name) VALUES('" + txtMake.getText() + "')";
             DBUtil.dbExecuteUpdate(sql);
-            setMakeList(PartService.makeList());
+            this.cbxMakes.setItems(PartService.makeList());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         onClickBtnCancel(event);
     }
 
-    public void setMakeList(ObservableList<String> makeList) {
-        this.makeList = makeList;
+    public void setCbxMakes(ChoiceBox<String> cbxMakes) {
+        this.cbxMakes = cbxMakes;
     }
 }

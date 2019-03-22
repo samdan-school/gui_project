@@ -6,20 +6,19 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class JavaFXUtil<T> {
+public class JavaFXUtil {
     private FXMLLoader loader;
-    private T controller;
+    private Scene scene;
+    private Stage stage;
 
     public JavaFXUtil(java.net.URL location) {
         this.loader = new FXMLLoader();
         loader.setLocation(location);
-        System.out.println(loader);
-        this.controller = loader.getController();
     }
 
     public void openNewStage(Parent parent, String title, int width, int height) {
-        Scene scene = new Scene(parent, width, height);
-        Stage stage = new Stage();
+        scene = new Scene(parent, width, height);
+        stage = new Stage();
         stage.setTitle(title);
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -28,9 +27,5 @@ public class JavaFXUtil<T> {
 
     public FXMLLoader getLoader() {
         return loader;
-    }
-
-    public T getMyController() {
-        return controller;
     }
 }

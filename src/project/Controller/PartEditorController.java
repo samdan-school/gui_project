@@ -19,9 +19,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class PartEditorController {
-    private JavaFXUtil<MakeBoxController> makeUtil;
-    private JavaFXUtil<ModelBoxController> modelUtil;
-    private JavaFXUtil<CategoryBoxController> categoryUtil;
     private ObservableList<String> makeList;
     private ObservableList<String> modelList;
     private ObservableList<String> categoryList;
@@ -70,11 +67,12 @@ public class PartEditorController {
 
     @FXML
     void onClickBtnMakes(ActionEvent event) {
+        JavaFXUtil makeUtil = new JavaFXUtil(getClass().getResource("../View/make_box.fxml"));
         Parent makes = null;
         try {
             makes = makeUtil.getLoader().load();
-            System.out.println(makeUtil.getMyController());
-//            makeUtil.getController().setMakeList(makeList);
+            MakeBoxController makeCtr = makeUtil.getLoader().getController();
+            makeCtr.setCbxMakes(this.cbxMakes);
             makeUtil.openNewStage(makes, "New Make", 400, 150);
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,10 +81,13 @@ public class PartEditorController {
 
     @FXML
     void onClickBtnNewModel(ActionEvent event) {
+        JavaFXUtil modelUtil = new JavaFXUtil(getClass().getResource("../View/model_box.fxml"));
         Parent models = null;
         try {
-            models = FXMLLoader.load(getClass().getResource("../View/model_box.fxml"));
-//            JavaFXUtil.openNewStage(models, "New Model", 400, 150);
+            models = modelUtil.getLoader().load();
+            ModelBoxController makeCtr = modelUtil.getLoader().getController();
+            makeCtr.setCbxModels(this.cbxModels);
+            modelUtil.openNewStage(models, "New Model", 400, 150);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,10 +95,13 @@ public class PartEditorController {
 
     @FXML
     void onClickBtnNewCategory(ActionEvent event) {
+        JavaFXUtil categoryUtil = new JavaFXUtil(getClass().getResource("../View/category_box.fxml"));
         Parent categories = null;
         try {
-            categories = FXMLLoader.load(getClass().getResource("../View/category_box.fxml"));
-//            JavaFXUtil.openNewStage(categories, "New Category", 400, 150);
+            categories = categoryUtil.getLoader().load();
+            CategoryBoxController makeCtr = categoryUtil.getLoader().getController();
+            makeCtr.setCbxCategories(this.cbxCategories);
+            categoryUtil.openNewStage(categories, "New Category", 400, 150);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -121,10 +125,6 @@ public class PartEditorController {
         this.makeList = PartService.makeList();
         this.modelList = PartService.modelList();
         this.categoryList = PartService.categoryList();
-
-        makeUtil = new JavaFXUtil<>(getClass().getResource("../View/make_box.fxml"));
-        modelUtil = new JavaFXUtil<>(getClass().getResource("../View/model_box.fxml"));
-        categoryUtil = new JavaFXUtil<>(getClass().getResource("../View/category_box.fxml"));
     }
 
     @FXML
@@ -135,8 +135,8 @@ public class PartEditorController {
         }
         this.cbxYear.setItems(years);
         this.cbxMakes.setItems(makeList);
-        this.cbxMakes.setItems(modelList);
-        this.cbxMakes.setItems(categoryList);
+        this.cbxModels.setItems(modelList);
+        this.cbxCategories.setItems(categoryList);
     }
 
     public void setMakeList(ObservableList<String> makeList) {
@@ -149,20 +149,5 @@ public class PartEditorController {
 
     public void setCategoryList(ObservableList<String> categoryList) {
         this.categoryList = categoryList;
-    }
-
-    @FXML
-    void cbxCategoriesClick(MouseEvent event) {
-//        this.cbxCategories.setItems(PartService.categoryList());
-    }
-
-    @FXML
-    void cbxMakesClick(MouseEvent event) {
-        this.cbxMakes.setItems(PartService.makeList());
-    }
-
-    @FXML
-    void cbxModelsClick(MouseEvent event) {
-        this.cbxModels.setItems(PartService.modelList());
     }
 }

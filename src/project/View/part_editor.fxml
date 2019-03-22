@@ -66,17 +66,17 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <ChoiceBox fx:id="cbxMakes" maxWidth="180.0" onMouseClicked="#cbxMakesClick" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
+            <ChoiceBox fx:id="cbxMakes" maxWidth="180.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <ChoiceBox fx:id="cbxModels" maxWidth="180.0" onMouseClicked="#cbxModelsClick" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
+            <ChoiceBox fx:id="cbxModels" maxWidth="180.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
             </ChoiceBox>
-            <ChoiceBox fx:id="cbxCategories" maxWidth="180.0" onMouseClicked="#cbxCategoriesClick" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
+            <ChoiceBox fx:id="cbxCategories" maxWidth="180.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets left="5.0" />
                </GridPane.margin>
