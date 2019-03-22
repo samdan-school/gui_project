@@ -1,21 +1,23 @@
 package project.Controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import project.JavaFXUtil;
+import project.Model.Part;
+import project.Service.PartService;
 
 import java.io.IOException;
+import java.util.Comparator;
 
 public class MainBoxController {
+    private ObservableList<Part> parts;
+    TreeItem<String> rootNode = new TreeItem<>("College Part Auto-Parts");
     @FXML
     private TreeView<String> tvwAutoParts;
 
@@ -107,18 +109,19 @@ public class MainBoxController {
 
     @FXML
     void onClickBtnClose(ActionEvent event) {
-        Stage stage = (Stage)btnClose.getScene().getWindow();
+        Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     void onClickBtnNewAutoPart(ActionEvent event) {
-        try{
+        try {
             JavaFXUtil partUtil = new JavaFXUtil(getClass().getResource("../View/part_editor.fxml"));
             Parent part = partUtil.getLoader().load();
             PartEditorController ctrE = partUtil.getLoader().getController();
+            ctrE.setPartList(this.parts);
             partUtil.openNewStage(part, "New Part", 600, 250);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -141,9 +144,49 @@ public class MainBoxController {
     }
 
     public MainBoxController() {
+        this.parts = PartService.partList();
     }
 
     @FXML
     public void initialize() {
+        loadPartTree();
+    }
+
+    private void loadPartTree() {
+        rootNode.setExpanded(true);
+        for (Part part : parts) {
+            TreeItem<String>[] partLeafs = new TreeItem[5];
+            partLeafs[0] = new TreeItem<>(part.getYear() + "");
+            partLeafs[1] = new TreeItem<>(part.getMake());
+            partLeafs[2] = new TreeItem<>(part.getmodel());
+            partLeafs[3] = new TreeItem<>(part.getCategory());
+            partLeafs[4] = new TreeItem<>(part.getPartName());
+            insertBranch(rootNode, partLeafs, 0);
+        }
+        tvwAutoParts.setRoot(rootNode);
+    }
+
+    private void insertBranch(TreeItem<String> prentNode, TreeItem<String>[] insNode, int position) {
+        if (position <= insNode.length - 2) {
+            boolean found = false;
+            for (TreeItem<String> childNode : prentNode.getChildren()) {
+                if (childNode.getValue().contentEquals(insNode[position].getValue())) {
+                    childNode.getChildren().add(insNode[position + 1]);
+                    insertBranch(childNode, insNode, position + 1);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                TreeItem<String> childNode = new TreeItem<String>(
+                        insNode[position].getValue()
+//                        new ImageView(depIcon)
+                );
+                prentNode.getChildren().add(childNode);
+                childNode.getChildren().add(insNode[position + 1]);
+                insertBranch(childNode, insNode, position + 1);
+            }
+            prentNode.getChildren().sort(Comparator.comparing(t->t.getValue()));
+        }
     }
 }

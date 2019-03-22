@@ -14,17 +14,17 @@ public class Part {
     private final SimpleDoubleProperty price;
 
     public Part() {
-        this(-1, "", "", "", "", 0, 0);
+        this(0, "", "", "", 0.0, 0, "");
     }
 
-    public Part(int year, String make, String projectModel, String category, String partName, int partId, double price) {
-        this.year = new SimpleIntegerProperty(year);
-        this.makeName = new SimpleStringProperty(make);
-        this.modelName = new SimpleStringProperty(projectModel);
-        this.categoryName = new SimpleStringProperty(category);
-        this.partName = new SimpleStringProperty(partName);
+    public Part(int partId, String makeName, String modelName, String categoryName, double price, int year, String partName) {
         this.partId = new SimpleIntegerProperty(partId);
+        this.makeName = new SimpleStringProperty(makeName);
+        this.modelName = new SimpleStringProperty(modelName);
+        this.categoryName = new SimpleStringProperty(categoryName);
         this.price = new SimpleDoubleProperty(price);
+        this.year = new SimpleIntegerProperty(year);
+        this.partName = new SimpleStringProperty(partName);
     }
 
     public int getPartId() {
@@ -51,12 +51,12 @@ public class Part {
         this.makeName.set(make);
     }
 
-    public String getProjectModel() {
+    public String getmodel() {
         return modelName.get();
     }
 
-    public void setProjectModel(String projectModel) {
-        this.modelName.set(projectModel);
+    public void setmodel(String model) {
+        this.modelName.set(model);
     }
 
     public String getCategory() {

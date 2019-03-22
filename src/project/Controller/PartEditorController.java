@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import project.DBUtil;
 import project.JavaFXUtil;
+import project.Model.Part;
 import project.Service.PartService;
 
 import java.io.IOException;
@@ -27,6 +28,7 @@ public class PartEditorController {
     private ObservableList<String> modelList;
     private ObservableList<String> categoryList;
     private String selectedMake = "";
+    private ObservableList<Part> partList;
 
     @FXML
     private ChoiceBox<Integer> cbxYear;
@@ -125,6 +127,7 @@ public class PartEditorController {
                     + "'" + txtPartName.getText() + "'"
                     + ")";
             DBUtil.dbExecuteUpdate(query);
+            this.setPartList(PartService.partList());
             onClickBtnClose(event);
         } catch (SQLException e) {
             Stage stage = (Stage)((Node)(event).getSource()).getScene().getWindow();
@@ -177,6 +180,10 @@ public class PartEditorController {
 
     public void setCategoryList(ObservableList<String> categoryList) {
         this.categoryList = categoryList;
+    }
+
+    public void setPartList(ObservableList<Part> partList) {
+        this.partList = partList;
     }
 
     public int findMaxPartId() {
