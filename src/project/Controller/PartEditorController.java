@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -115,27 +116,30 @@ public class PartEditorController {
     @FXML
     void onClickBtnSubmit(ActionEvent event) {
         try {
-            ResultSet makeRes = DBUtil.dbExecuteQuery("SELECT make_id FROM make WHERE make_name = '" +
+            ResultSet makeRes = DBUtil.dbExecuteQuery("SELECT * FROM make WHERE make_name = '" +
                     cbxMakes.getSelectionModel().getSelectedItem() + "'");
             makeRes.next();
-            ResultSet modelRes = DBUtil.dbExecuteQuery("SELECT model_id FROM model WHERE model_name = '" +
+            ResultSet modelRes = DBUtil.dbExecuteQuery("SELECT * FROM model WHERE model_name = '" +
                     cbxModels.getSelectionModel().getSelectedItem() + "'");
             modelRes.next();
-            ResultSet categoryRes = DBUtil.dbExecuteQuery("SELECT category_id FROM category WHERE category_name = '" +
+            ResultSet categoryRes = DBUtil.dbExecuteQuery("SELECT * FROM category WHERE category_name = '" +
                     cbxCategories.getSelectionModel().getSelectedItem() + "'");
             categoryRes.next();
 
 
-            String query = "INSERT INTO part(make_name, model_name, category_name, unit_price, part_year, part_name) VALUES(" +
-                    makeRes.getString("make_name") + ", " +
-                    modelRes.getString("model_name") + ", " +
-                    categoryRes.getString("category_name") + ", " +
-                    txtUnitPrice.getText() + ", " +
-                    cbxYear.getSelectionModel().getSelectedItem() + ", '" +
-                    txtPartName.getText() +
-                    "')";
+            String query = "INSERT INTO part(make_name, model_name, category_name, unit_price, part_year, part_name) VALUES("
+                    + "'" + makeRes.getString("make_name") + "', "
+                    + "'" + modelRes.getString("model_name") + "', "
+                    + "'" + categoryRes.getString("category_name") + "', "
+                    + txtUnitPrice.getText() + ", "
+                    + cbxYear.getSelectionModel().getSelectedItem() + ", "
+                    + "'" + txtPartName.getText() + "'"
+                    + ")";
             DBUtil.dbExecuteUpdate(query);
+            onClickBtnClose(event);
         } catch (SQLException e) {
+            Stage stage = (Stage)((Node)(event).getSource()).getScene().getWindow();
+            JavaFXUtil.alertError(stage, "Part Insert Error", "Part insertion failed", "Please check value");
             e.printStackTrace();
         }
     }
@@ -148,7 +152,7 @@ public class PartEditorController {
     @FXML
     void initialize() {
         ObservableList<Integer> years = FXCollections.observableArrayList();
-        for (int i = 2000; i < 2020; i++) {
+        for (int i = 2000; i <= 2020; i++) {
             years.add(i);
         }
         this.cbxYear.setItems(years);
@@ -194,7 +198,6 @@ public class PartEditorController {
                 returnId = maxId.getInt("max");
                 returnId++;
             }
-            System.out.println(returnId);
         } catch (SQLException e) {
             e.printStackTrace();
         }

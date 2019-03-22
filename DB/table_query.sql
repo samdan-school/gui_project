@@ -26,8 +26,9 @@ CREATE TABLE part (
 	make_name VARCHAR(100) NOT NULL,
 	model_name VARCHAR(100) NOT NULL,
 	category_name VARCHAR(100) NOT NULL,
+	unit_price decimal(15, 3) NOT NULL,
 	part_year INT(4),
-	part_name VARCHAR(100) UNIQUE,
+	part_name VARCHAR(100),
 	FOREIGN KEY (make_name) REFERENCES make(make_name),
 	FOREIGN KEY (model_name) REFERENCES model(model_name),
 	FOREIGN KEY (category_name) REFERENCES category(category_name)

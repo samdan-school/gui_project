@@ -40,7 +40,6 @@ public class DBUtil {
         try {
             //Connect to DB (Establish Oracle Connection)
             dbConnect();
-            System.out.println("Select statement: " + queryStmt + "\n");
 
             //Create statement
             stmt = conn.createStatement();
