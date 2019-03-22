@@ -1,5 +1,6 @@
 package project.Controller;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 
 public class MakeBoxController {
 
+    private ObservableList<String> makeList;
     @FXML
     private Button btnOK;
 
@@ -40,11 +42,14 @@ public class MakeBoxController {
         try {
             String sql = "INSERT INTO make(make_name) VALUES('" + txtMake.getText() + "')";
             DBUtil.dbExecuteUpdate(sql);
-            PartEditorController ctr = new PartEditorController();
-            ctr.setMakeList(PartService.makeList());
+            setMakeList(PartService.makeList());
         } catch (SQLException e) {
             e.printStackTrace();
         }
         onClickBtnCancel(event);
+    }
+
+    public void setMakeList(ObservableList<String> makeList) {
+        this.makeList = makeList;
     }
 }

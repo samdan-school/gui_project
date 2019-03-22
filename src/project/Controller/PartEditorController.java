@@ -6,12 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import project.DBUtil;
 import project.JavaFXUtil;
@@ -21,6 +19,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class PartEditorController {
+    private JavaFXUtil<MakeBoxController> makeUtil;
+    private JavaFXUtil<ModelBoxController> modelUtil;
+    private JavaFXUtil<CategoryBoxController> categoryUtil;
     private ObservableList<String> makeList;
     private ObservableList<String> modelList;
     private ObservableList<String> categoryList;
@@ -63,18 +64,18 @@ public class PartEditorController {
 
     @FXML
     void onClickBtnClose(ActionEvent event) {
-        Stage stage = (Stage)btnClose.getScene().getWindow();
+        Stage stage = (Stage) btnClose.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     void onClickBtnMakes(ActionEvent event) {
         Parent makes = null;
-        try{
-            makes = FXMLLoader.load(getClass().getResource("../View/make_box.fxml"));
-
-            JavaFXUtil.openNewStage(makes, "New Make", 400, 150);
-        }catch (IOException e){
+        try {
+            makes = makeUtil.getLoader().load();
+            makeUtil.getController().setMakeList(makeList);
+            makeUtil.openNewStage(makes, "New Make", 400, 150);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -82,10 +83,10 @@ public class PartEditorController {
     @FXML
     void onClickBtnNewModel(ActionEvent event) {
         Parent models = null;
-        try{
+        try {
             models = FXMLLoader.load(getClass().getResource("../View/model_box.fxml"));
-            JavaFXUtil.openNewStage(models, "New Model", 400, 150);
-        }catch (IOException e){
+//            JavaFXUtil.openNewStage(models, "New Model", 400, 150);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -93,10 +94,10 @@ public class PartEditorController {
     @FXML
     void onClickBtnNewCategory(ActionEvent event) {
         Parent categories = null;
-        try{
-            categories = FXMLLoader.load(getClass().getResource("../View/categorybox.fxml"));
-            JavaFXUtil.openNewStage(categories, "New Category", 400, 150);
-        }catch (IOException e){
+        try {
+            categories = FXMLLoader.load(getClass().getResource("../View/category_box.fxml"));
+//            JavaFXUtil.openNewStage(categories, "New Category", 400, 150);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -105,9 +106,9 @@ public class PartEditorController {
     void onClickBtnSubmit(ActionEvent event) {
         try {
             String query = "INSERT INTO part(make_id, model_id, category_id, unit_price, part_year, part_name) VALUES(" +
-                    DBUtil.dbExecuteQuery("SELECT make_id FROM make WHERE make_name = '"+cbxMakes.getSelectionModel().getSelectedItem()+"'") + ", " +
-                    DBUtil.dbExecuteQuery("SELECT model_id FROM model WHERE model_name = '"+cbxModels.getSelectionModel().getSelectedItem()+"'") + ", " +
-                    DBUtil.dbExecuteQuery("SELECT category_id FROM category WHERE category_name = '"+cbxCategories.getSelectionModel().getSelectedItem()+"'") + ", " +
+                    DBUtil.dbExecuteQuery("SELECT make_id FROM make WHERE make_name = '" + cbxMakes.getSelectionModel().getSelectedItem() + "'") + ", " +
+                    DBUtil.dbExecuteQuery("SELECT model_id FROM model WHERE model_name = '" + cbxModels.getSelectionModel().getSelectedItem() + "'") + ", " +
+                    DBUtil.dbExecuteQuery("SELECT category_id FROM category WHERE category_name = '" + cbxCategories.getSelectionModel().getSelectedItem() + "'") + ", " +
                     txtUnitPrice.getText() + ", " + cbxYear.getSelectionModel().getSelectedItem() + ", '" + txtPartName.getText() + "'";
             DBUtil.dbExecuteUpdate(query);
         } catch (SQLException e) {
@@ -119,15 +120,10 @@ public class PartEditorController {
         this.makeList = PartService.makeList();
         this.modelList = PartService.modelList();
         this.categoryList = PartService.categoryList();
-//
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../View/part_editor.fxml"));
-//        try {
-//            Pane root = fxmlLoader.load();
-//            Scene scene = new Scene(root); // optionally specify dimensions too
-//            root.setScene();
-//        } catch (IOException exception) {
-//            throw new RuntimeException(exception);
-//        }
+
+        makeUtil = new JavaFXUtil<>("../View/make_box.fxml");
+        modelUtil = new JavaFXUtil<>("../View/model_box.fxml");
+        categoryUtil = new JavaFXUtil<>("../View/category_box.fxml");
     }
 
     @FXML
@@ -138,8 +134,8 @@ public class PartEditorController {
         }
         this.cbxYear.setItems(years);
         this.cbxMakes.setItems(makeList);
-//        this.cbxModels.setItems(partService.modelList());
-//        this.cbxCategories.setItems(partService.categoryList());
+        this.cbxMakes.setItems(modelList);
+        this.cbxMakes.setItems(categoryList);
     }
 
     public void setMakeList(ObservableList<String> makeList) {
