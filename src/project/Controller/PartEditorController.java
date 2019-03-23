@@ -127,7 +127,8 @@ public class PartEditorController {
                     + "'" + txtPartName.getText() + "'"
                     + ")";
             DBUtil.dbExecuteUpdate(query);
-            this.setPartList(PartService.partList());
+            this.partList.remove(0, this.partList.size());
+            this.partList.addAll(PartService.partList());
             onClickBtnClose(event);
         } catch (SQLException e) {
             Stage stage = (Stage)((Node)(event).getSource()).getScene().getWindow();

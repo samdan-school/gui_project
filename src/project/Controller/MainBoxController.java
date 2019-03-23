@@ -1,5 +1,6 @@
 package project.Controller;
 
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -150,9 +151,11 @@ public class MainBoxController {
     @FXML
     public void initialize() {
         loadPartTree();
+        parts.addListener((ListChangeListener.Change<? extends Part> c) -> loadPartTree());
     }
 
     private void loadPartTree() {
+        rootNode.getChildren().clear();
         rootNode.setExpanded(true);
         for (Part part : parts) {
             TreeItem<String>[] partLeafs = new TreeItem[5];
@@ -186,7 +189,7 @@ public class MainBoxController {
                 childNode.getChildren().add(insNode[position + 1]);
                 insertBranch(childNode, insNode, position + 1);
             }
-            prentNode.getChildren().sort(Comparator.comparing(t->t.getValue()));
+            prentNode.getChildren().sort(Comparator.comparing(t -> t.getValue()));
         }
     }
 }
