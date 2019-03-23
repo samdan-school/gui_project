@@ -3,6 +3,7 @@ package project.Controller;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import project.JavaFXUtil;
 import project.Model.Part;
+import project.Model.SelectedPart;
 import project.Service.PartService;
 
 import javax.print.DocFlavor;
@@ -94,26 +96,60 @@ public class MainBoxController {
     private TextField txtSubTotal;
 
     @FXML
-    private TableView<?> lvwSelectedParts;
+    private TableView<SelectedPart> lvwSelectedParts;
 
     @FXML
-    private TableColumn<?, ?> colPartNumberSelected;
+    private TableColumn<SelectedPart, Number> colPartNumberSelected;
 
     @FXML
-    private TableColumn<?, ?> colPartNameSelected;
+    private TableColumn<SelectedPart, String> colPartNameSelected;
 
     @FXML
-    private TableColumn<?, ?> colUnitPriceSelected;
+    private TableColumn<SelectedPart, Number> colUnitPriceSelected;
 
     @FXML
-    private TableColumn<?, ?> colQuantitySelected;
+    private TableColumn<SelectedPart, Number> colQuantitySelected;
 
     @FXML
-    private TableColumn<?, ?> colSubTotalSelected;
+    private TableColumn<SelectedPart, Number> colSubTotalSelected;
+
+    private ObservableList<SelectedPart> selectedParts = FXCollections.observableArrayList();
 
     @FXML
     void onClickBtnAdd(ActionEvent event) {
-
+        if (!txtPartNumber.getText().isEmpty() && Integer.parseInt(txtQuantity.getText()) == 0) {
+            for (SelectedPart selectedPart : this.selectedParts) {
+                if (Integer.parseInt(txtPartNumber.getText()) == selectedPart.getPart().getPartId()) {
+                    this.selectedParts.remove(selectedPart);
+                }
+                lvwSelectedParts.setItems(this.selectedParts);
+                lvwSelectedParts.refresh();
+                return;
+            }
+        }
+        if (!txtPartNumber.getText().isEmpty() && Integer.parseInt(txtQuantity.getText()) > 0) {
+            for (SelectedPart selectedPart : this.selectedParts) {
+                if (Integer.parseInt(txtPartNumber.getText()) == selectedPart.getPart().getPartId()) {
+                    selectedPart.setQuantity(Integer.parseInt(txtQuantity.getText()));
+                    selectedPart.setSubTotal(Double.parseDouble(txtSubTotal.getText()));
+                }
+                lvwSelectedParts.setItems(this.selectedParts);
+                lvwSelectedParts.refresh();
+                return;
+            }
+            for (Part part : this.parts) {
+                if (Integer.parseInt(txtPartNumber.getText()) == part.getPartId()) {
+                    this.selectedParts.add(new SelectedPart(
+                            part,
+                            Integer.parseInt(txtQuantity.getText()),
+                            Double.parseDouble(txtSubTotal.getText())
+                    ));
+                    lvwSelectedParts.setItems(this.selectedParts);
+                    lvwSelectedParts.refresh();
+                    break;
+                }
+            }
+        }
     }
 
     @FXML
@@ -171,6 +207,25 @@ public class MainBoxController {
         colPartNumber.setCellValueFactory(cellData -> cellData.getValue().partIdProperty());
         colPartName.setCellValueFactory(cellData -> cellData.getValue().partNameProperty());
         colUnitPrice.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
+
+        // Selected parts
+        colPartNumberSelected.setCellValueFactory(cellData -> cellData.getValue().partIdProperty());
+        colPartNameSelected.setCellValueFactory(cellData -> cellData.getValue().partNameProperty());
+        colUnitPriceSelected.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
+        colQuantitySelected.setCellValueFactory(cellData -> cellData.getValue().quantityProperty());
+        colSubTotalSelected.setCellValueFactory(cellData -> cellData.getValue().subTotalProperty());
+
+
+        txtQuantity.textProperty().addListener((obs, newValue, oldValue) -> {
+            if (!isNumeric(txtQuantity.getText()) || txtQuantity.getText().isEmpty()) {
+                return;
+            }
+            if (txtUnitPrice.getText().compareTo("0.00") > 0) {
+                txtSubTotal.setText(
+                        Double.parseDouble(txtUnitPrice.getText()) * Double.parseDouble(txtQuantity.getText()) + ""
+                );
+            }
+        });
     }
 
     @FXML
@@ -190,8 +245,20 @@ public class MainBoxController {
             current = current.getParent();
         }
         this.setAvailableParts(PartService.availablePartList(names));
-        tvwAutoParts.refresh();
-        System.out.println(this.availableParts);
+        this.lvwAutoParts.setItems(this.availableParts);
+        this.lvwAutoParts.refresh();
+    }
+
+    @FXML
+    void lvwAutoPartsMouseClick(MouseEvent event) {
+        Part part = lvwAutoParts.getSelectionModel().getSelectedItem();
+        if (part != null) {
+            txtPartNumber.setText(part.getPartId() + "");
+            txtPartName.setText(part.getPartName());
+            txtUnitPrice.setText(part.getPrice() + "");
+            txtQuantity.setText("1");
+            txtSubTotal.setText(part.getPrice() + "");
+        }
     }
 
     private void loadPartTree() {
@@ -244,5 +311,9 @@ public class MainBoxController {
 
     public void setAvailableParts(ObservableList<Part> availableParts) {
         this.availableParts = availableParts;
+    }
+
+    private boolean isNumeric(String s) {
+        return s != null && s.matches("[-+]?\\d*\\.?\\d+");
     }
 }

@@ -97,7 +97,6 @@ public class PartService {
             if (names.length == 1) {
                 query += "WHERE part_year ='" + names[0] + "';";
             }
-            System.out.println(query);
             ResultSet result = DBUtil.dbExecuteQuery(query);
             while (result.next()) {
                 data.add(new Part(

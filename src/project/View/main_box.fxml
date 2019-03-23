@@ -119,7 +119,7 @@
                         <Font size="10.0" />
                      </font>
                   </Button>
-                  <TextField fx:id="txtSave" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" GridPane.columnIndex="3">
+                  <TextField fx:id="txtSave" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" style="-fx-opacity: 1;" GridPane.columnIndex="3">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -129,17 +129,17 @@
                         <Font size="10.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtTaxAmount" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                  <TextField fx:id="txtTaxAmount" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" style="-fx-opacity: 1;" GridPane.columnIndex="6" GridPane.rowIndex="1">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtTaxRate" alignment="TOP_RIGHT" disable="true" maxHeight="20.0" maxWidth="40.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" promptText="7.75" GridPane.columnIndex="6">
+                  <TextField fx:id="txtTaxRate" alignment="TOP_RIGHT" disable="true" maxHeight="20.0" maxWidth="40.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" promptText="7.75" style="-fx-opacity: 1;" GridPane.columnIndex="6">
                      <font>
                         <Font size="10.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtOrderTotal" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
+                  <TextField fx:id="txtOrderTotal" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" style="-fx-opacity: 1;" GridPane.columnIndex="8" GridPane.rowIndex="1">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -149,7 +149,7 @@
                         <Font size="10.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtPartsTotal" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" GridPane.columnIndex="8">
+                  <TextField fx:id="txtPartsTotal" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" style="-fx-opacity: 1;" GridPane.columnIndex="8">
                      <font>
                         <Font size="10.0" />
                      </font>
@@ -168,7 +168,7 @@
          <children>
             <StackPane prefHeight="145.0" prefWidth="505.0">
                <children>
-                  <TableView fx:id="lvwAutoParts" prefHeight="100.0" prefWidth="465.0" style="-fx-border-color: #808080; -fx-background-color: #D4D0C8;">
+                  <TableView fx:id="lvwAutoParts" onMouseClicked="#lvwAutoPartsMouseClick" prefHeight="100.0" prefWidth="465.0" style="-fx-border-color: #808080; -fx-background-color: #D4D0C8;">
                     <columns>
                       <TableColumn fx:id="colPartNumber" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="Part #" />
                       <TableColumn fx:id="colPartName" maxWidth="300.0" minWidth="300.0" prefWidth="300.0" text="Part Name" />
@@ -236,17 +236,17 @@
                                     <Font size="10.0" />
                                  </font>
                               </Label>
-                              <TextField fx:id="txtPartNumber" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" GridPane.rowIndex="1">
+                              <TextField fx:id="txtPartNumber" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" style="-fx-opacity: 1;" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="txtPartName" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <TextField fx:id="txtPartName" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" style="-fx-opacity: 1;" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="txtUnitPrice" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" text="0.00" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <TextField fx:id="txtUnitPrice" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" style="-fx-opacity: 1;" text="0.00" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
@@ -256,7 +256,7 @@
                                     <Font size="10.0" />
                                  </font>
                               </TextField>
-                              <TextField fx:id="txtSubTotal" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                              <TextField fx:id="txtSubTotal" disable="true" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" style="-fx-opacity: 1;" text="0.00" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                  <font>
                                     <Font size="10.0" />
                                  </font>
