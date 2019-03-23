@@ -20,7 +20,7 @@
    <left>
       <StackPane prefHeight="400.0" prefWidth="235.0" style="-fx-background-color: #D4D0C8;" BorderPane.alignment="CENTER">
          <children>
-            <TreeView id="tvwAutoParts" fx:id="tvwAutoParts" prefHeight="400.0" prefWidth="190.0" style="-fx-border-color: #808080;">
+            <TreeView id="tvwAutoParts" fx:id="tvwAutoParts" onMouseClicked="#vwAutoPartsMouseClick" prefHeight="400.0" prefWidth="190.0" style="-fx-border-color: #808080;">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

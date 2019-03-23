@@ -1,17 +1,15 @@
 package project.Model;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 public class Part {
-    private final SimpleIntegerProperty year;
-    private final SimpleStringProperty makeName;
-    private final SimpleStringProperty modelName;
-    private final SimpleStringProperty categoryName;
-    private final SimpleStringProperty partName;
-    private final SimpleIntegerProperty partId;
-    private final SimpleDoubleProperty price;
+    private final IntegerProperty year;
+    private final StringProperty makeName;
+    private final StringProperty modelName;
+    private final StringProperty categoryName;
+    private final StringProperty partName;
+    private final IntegerProperty partId;
+    private final DoubleProperty price;
 
     public Part() {
         this(0, "", "", "", 0.0, 0, "");
@@ -33,6 +31,10 @@ public class Part {
 
     public void setPartId(int partId) {
         this.partId.set(partId);
+    }
+
+    public IntegerProperty partIdProperty() {
+        return partId;
     }
 
     public int getYear() {
@@ -75,11 +77,19 @@ public class Part {
         this.price.set(price);
     }
 
+    public DoubleProperty priceProperty() {
+        return price;
+    }
+
     public String getPartName() {
         return partName.get();
     }
 
     public void setPartName(String partName) {
         this.partName.set(partName);
+    }
+
+    public StringProperty partNameProperty() {
+        return partName;
     }
 }
