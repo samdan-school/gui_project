@@ -34,17 +34,12 @@ CREATE TABLE part (
 	FOREIGN KEY (category_name) REFERENCES category(category_name)
 );
 
-CREATE TABLE order_detail (
-	order_detail_id INT PRIMARY KEY AUTO_INCREMENT
-);
-
 -- Insert hiihued primary key davhtsan gsn aldaa garsan ued cart_info-iin quantity-iig n update hiine
-CREATE TABLE cart_info (
-	order_detail_id INT,
+CREATE TABLE carts (
+	cart_id INT,
 	part_id INT,
 	quantity INT NOT NULL,
-	PRIMARY KEY (order_detail_id, part_id),
-	FOREIGN KEY (order_detail_id) REFERENCES order_detail(order_detail_id),
+	PRIMARY KEY (cart_id, part_id),
 	FOREIGN KEY (part_id) REFERENCES part(part_id)
 );
 
@@ -52,7 +47,6 @@ CREATE TABLE customer_order (
 	receipt_number INT PRIMARY KEY AUTO_INCREMENT,
 	tax_rate DECIMAL(10,5),
 	total_amount DECIMAL(15,2),
-	order_detail_id INT,
-	FOREIGN KEY (order_detail_id) REFERENCES order_detail(order_detail_id)
+	cart_id INT,
+	FOREIGN KEY (cart_id) REFERENCES carts(cart_id)
 );
-

@@ -355,15 +355,23 @@ public class MainBoxController {
         txtOrderTotal.setText(null);
 
         // Reset Tables and Observable Lists
-        selectedParts.remove(0, selectedParts.size() - 1);
         if (availableParts != null)
             availableParts.remove(0, availableParts.size() - 1);
         lvwAutoParts.setItems(null);
+        selectedParts.remove(0, selectedParts.size() - 1);
         lvwSelectedParts.setItems(null);
     }
 
     @FXML
     void onClickBtnOpen(ActionEvent event) {
+        if (txtOpen.getText() != null) {
+            selectedParts = PartService.getSelectedPartsByReceiptNumber(txtOpen.getText());
+            lvwSelectedParts.setItems(selectedParts);
+            lvwSelectedParts.refresh();
+            txtPartsTotal.setText(calculateSelectedPartTotal() + "");
+            txtSave.setText(txtOpen.getText());
+            setCustomerDetails();
+        }
     }
 
     @FXML
@@ -373,7 +381,7 @@ public class MainBoxController {
             JavaFXUtil.alertError(stage, "Customer Order Error", "Customer Oder failed", "Please select at least one part!");
             return;
         }
-        PartService.insertCustomerOrder(selectedParts, txtSave.getText(), txtTaxRate.getText(), txtOrderTotal.getText());
+        PartService.insertCustomerOrder(selectedParts, txtSave.getText(), txtTaxRate.getText(), txtPartsTotal.getText());
         onClickBtnNewCustomerOrder(event);
     }
 

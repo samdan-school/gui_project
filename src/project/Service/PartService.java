@@ -58,15 +58,7 @@ public class PartService {
         try {
             ResultSet result = DBUtil.dbExecuteQuery("select * from part");
             while (result.next()) {
-                data.add(new Part(
-                        result.getInt("part_id"),
-                        result.getString("make_name"),
-                        result.getString("model_name"),
-                        result.getString("category_name"),
-                        result.getDouble("unit_price"),
-                        result.getInt("part_year"),
-                        result.getString("part_name")
-                ));
+                data.add(createNewPartByResultSet(result));
             }
             return data;
         } catch (SQLException e) {
@@ -100,15 +92,7 @@ public class PartService {
             }
             ResultSet result = DBUtil.dbExecuteQuery(query);
             while (result.next()) {
-                data.add(new Part(
-                        result.getInt("part_id"),
-                        result.getString("make_name"),
-                        result.getString("model_name"),
-                        result.getString("category_name"),
-                        result.getDouble("unit_price"),
-                        result.getInt("part_year"),
-                        result.getString("part_name")
-                ));
+                data.add(createNewPartByResultSet(result));
             }
             return data;
         } catch (SQLException e) {
@@ -117,9 +101,9 @@ public class PartService {
         return null;
     }
 
-    public static void insertCartInfo(ObservableList<SelectedPart> selectedParts, int orderId) {
-        String cartsInsertQuery = "INSERT INTO cart_info(order_detail_id, part_id, quantity) VALUES("
-                + "'" + orderId + "', ";
+    public static void insertCartInfo(ObservableList<SelectedPart> selectedParts, int cartId) {
+        String cartsInsertQuery = "INSERT INTO carts(cart_id, part_id, quantity) VALUES("
+                + "'" + cartId + "', ";
 
         String itemInsert;
         for (SelectedPart selectedPart : selectedParts) {
@@ -135,22 +119,60 @@ public class PartService {
         }
     }
 
-    public static void insertCustomerOrder(ObservableList<SelectedPart> selectedParts, String customerId, String taxRate, String totalAmount) {
-        int maxOrderDetailId = DBUtil.findMaxId("order_detail_id", "order_detail");
-        String orderDetailInsertQuery = "INSERT INTO order_detail VALUES( '" + maxOrderDetailId +"')";
-        String customerOrderInsertQuery = "INSERT INTO customer_order(receipt_number, tax_rate, total_amount, order_detail_id) VALUES("
+    public static void insertCustomerOrder(ObservableList<SelectedPart> selectedParts, String customerId, String taxRate, String partTotal) {
+        int maxCartId = DBUtil.findMaxId("cart_id", "carts");
+        String customerOrderInsertQuery = "INSERT INTO customer_order(receipt_number, tax_rate, total_amount, cart_id) VALUES("
                 + "'" + customerId + "',"
                 + "'" + taxRate + "', "
-                + "'" + totalAmount + "', "
-                + "'" + maxOrderDetailId + "'"
+                + "'" + partTotal + "', "
+                + "'" + maxCartId + "'"
                 + ");";
-        System.out.println(maxOrderDetailId);
         try {
-            DBUtil.dbExecuteUpdate(orderDetailInsertQuery);
+            insertCartInfo(selectedParts, maxCartId);
             DBUtil.dbExecuteUpdate(customerOrderInsertQuery);
-            insertCartInfo(selectedParts, maxOrderDetailId);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static ObservableList<SelectedPart> getSelectedPartsByReceiptNumber(String receiptNumber) {
+        ObservableList<SelectedPart> selectedParts = FXCollections.observableArrayList();
+        try {
+            ResultSet customerOrder = DBUtil.dbExecuteQuery("SELECT * FROM customer_order WHERE receipt_number = " + receiptNumber);
+            customerOrder.next();
+            String cartId = customerOrder.getString("cart_id");
+            ResultSet carts = DBUtil.dbExecuteQuery("SELECT * FROM carts WHERE cart_id = " + cartId);
+            while (carts.next()) {
+                ResultSet partRes = DBUtil.dbExecuteQuery("SELECT * FROM part WHERE part_id = " + carts.getString("part_id"));
+                partRes.next();
+                Part part = createNewPartByResultSet(partRes);
+                selectedParts.add(
+                        new SelectedPart(
+                                part,
+                                carts.getInt("quantity"),
+                                part.calculateSubTotal(carts.getInt("quantity"))
+                        )
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return selectedParts;
+    }
+
+//    public static Part getPartById(String partId) {
+//        DBUtil.dbExecuteQuery("SELECT * FROM ")
+//    }
+
+    private static Part createNewPartByResultSet(ResultSet part) throws SQLException {
+        return new Part(
+                part.getInt("part_id"),
+                part.getString("make_name"),
+                part.getString("model_name"),
+                part.getString("category_name"),
+                part.getDouble("unit_price"),
+                part.getInt("part_year"),
+                part.getString("part_name")
+        );
     }
 }

@@ -92,4 +92,8 @@ public class Part {
     public StringProperty partNameProperty() {
         return partName;
     }
+
+    public Double calculateSubTotal(int quantity) {
+        return this.getPrice() * quantity;
+    }
 }
