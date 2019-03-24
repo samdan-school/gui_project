@@ -364,7 +364,7 @@ public class MainBoxController {
 
     @FXML
     void onClickBtnOpen(ActionEvent event) {
-        if (txtOpen.getText() != null) {
+        if (txtOpen.getText() != null && PartService.isCustomerOrderExist(txtOpen.getText())) {
             selectedParts = PartService.getSelectedPartsByReceiptNumber(txtOpen.getText());
             lvwSelectedParts.setItems(selectedParts);
             lvwSelectedParts.refresh();
@@ -380,9 +380,14 @@ public class MainBoxController {
             Stage stage = (Stage) ((Node) (event).getSource()).getScene().getWindow();
             JavaFXUtil.alertError(stage, "Customer Order Error", "Customer Oder failed", "Please select at least one part!");
             return;
+        } else if (PartService.isCustomerOrderExist(txtSave.getText())) {
+            String cardId = PartService.getCartIdByReceiptNumber(txtSave.getText());
+            PartService.deleteCustomerOrderByReceiptNumber(txtSave.getText());
+            PartService.deleteCartInfoByCartId(cardId);
+            PartService.insertCartInfo(this.selectedParts, Integer.parseInt(cardId));
+            return;
         }
         PartService.insertCustomerOrder(selectedParts, txtSave.getText(), txtTaxRate.getText(), txtPartsTotal.getText());
-        onClickBtnNewCustomerOrder(event);
     }
 
     // Close

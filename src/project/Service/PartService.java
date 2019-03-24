@@ -160,9 +160,33 @@ public class PartService {
         return selectedParts;
     }
 
-//    public static Part getPartById(String partId) {
-//        DBUtil.dbExecuteQuery("SELECT * FROM ")
-//    }
+    public static String getCartIdByReceiptNumber(String receiptNumber) {
+        String cartId = "";
+        try {
+            ResultSet customerOrder = DBUtil.dbExecuteQuery("SELECT * FROM customer_order WHERE receipt_number = " + receiptNumber);
+            customerOrder.next();
+            cartId = customerOrder.getString("cart_id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cartId;
+    }
+
+    public static void deleteCartInfoByCartId(String cartId) {
+        try {
+            DBUtil.dbExecuteUpdate("DELETE FROM carts WHERE cart_id = " + cartId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteCustomerOrderByReceiptNumber(String receiptNumber) {
+        try {
+            DBUtil.dbExecuteUpdate("DELETE FROM customer_order WHERE receipt_number = " + receiptNumber);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private static Part createNewPartByResultSet(ResultSet part) throws SQLException {
         return new Part(
@@ -174,5 +198,18 @@ public class PartService {
                 part.getInt("part_year"),
                 part.getString("part_name")
         );
+    }
+
+    public static boolean isCustomerOrderExist(String receiptNumber) {
+        boolean exist = false;
+        try {
+            ResultSet customerOrder = DBUtil.dbExecuteQuery("SELECT * FROM customer_order WHERE receipt_number = " + receiptNumber);
+            if (customerOrder.next()) {
+                exist = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return exist;
     }
 }
