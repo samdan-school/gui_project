@@ -117,52 +117,6 @@ public class MainBoxController {
 
     private ObservableList<SelectedPart> selectedParts = FXCollections.observableArrayList();
 
-    @FXML
-    void onClickBtnAdd(ActionEvent event) {
-        checkPartAdd(event);
-        lvwSelectedParts.setItems(this.selectedParts);
-        lvwSelectedParts.refresh();
-        txtPartsTotal.setText(calculateSelectedPartTotal());
-        setCustomerDetails();
-    }
-
-    @FXML
-    void onClickBtnClose(ActionEvent event) {
-        Stage stage = (Stage) btnClose.getScene().getWindow();
-        stage.close();
-    }
-
-    @FXML
-    void onClickBtnNewAutoPart(ActionEvent event) {
-        try {
-            JavaFXUtil partUtil = new JavaFXUtil(getClass().getResource("../View/part_editor.fxml"));
-            Parent part = partUtil.getLoader().load();
-            PartEditorController ctrE = partUtil.getLoader().getController();
-            ctrE.setPartList(this.parts);
-            partUtil.openNewStage(part, "New Part", 600, 250);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    void onClickBtnNewCustomerOrder(ActionEvent event) {
-        txtSave.setText(DBUtil.findMaxId("receipt_number", "customer_order") + "");
-        txtOpen.setText(null);
-        txtTaxAmount.setText(null);
-        txtPartsTotal.setText(null);
-        txtOrderTotal.setText(null);
-    }
-
-    @FXML
-    void onClickBtnOpen(ActionEvent event) {
-    }
-
-    @FXML
-    void onClickBtnSave(ActionEvent event) {
-
-    }
-
     public MainBoxController() {
         this.parts = PartService.partList();
         closeImages = new Image[5];
@@ -209,37 +163,18 @@ public class MainBoxController {
         onClickBtnNewCustomerOrder(new ActionEvent());
     }
 
-    @FXML
-    void vwAutoPartsMouseClick(MouseEvent event) {
-        TreeItem<String> item = tvwAutoParts.getSelectionModel().getSelectedItem();
-        int position = countParent(item, 0);
-        if (position < 4) {
-            item.setGraphic(!item.isExpanded() ?
-                    new ImageView(closeImages[position]) :
-                    new ImageView(openImages[position])
-            );
-        }
-        TreeItem<String> current = item;
-        String[] names = new String[position];
-        for (int i = 0; i < position; i++) {
-            names[i] = current.getValue();
-            current = current.getParent();
-        }
-        this.setAvailableParts(PartService.availablePartList(names));
-        this.lvwAutoParts.setItems(this.availableParts);
-        this.lvwAutoParts.refresh();
-    }
 
+    // Tree view
     @FXML
-    void lvwAutoPartsMouseClick(MouseEvent event) {
-        Part part = lvwAutoParts.getSelectionModel().getSelectedItem();
-        if (part != null) {
-            txtQuantity.setDisable(false);
-            txtPartNumber.setText(part.getPartId() + "");
-            txtPartName.setText(part.getPartName());
-            txtUnitPrice.setText(part.getPrice() + "");
-            txtQuantity.setText("1");
-            txtSubTotal.setText(part.getPrice() + "");
+    void onClickBtnNewAutoPart(ActionEvent event) {
+        try {
+            JavaFXUtil partUtil = new JavaFXUtil(getClass().getResource("../View/part_editor.fxml"));
+            Parent part = partUtil.getLoader().load();
+            PartEditorController ctrE = partUtil.getLoader().getController();
+            ctrE.setPartList(this.parts);
+            partUtil.openNewStage(part, "New Part", 600, 250);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -285,20 +220,76 @@ public class MainBoxController {
     }
 
     private int countParent(TreeItem<String> childNode, int count) {
-        if (childNode.getParent() != null) {
-            return countParent(childNode.getParent(), count + 1);
+        try {
+            if (childNode.getParent() != null) {
+                return countParent(childNode.getParent(), count + 1);
+            }
+            return count;
+        } catch (NullPointerException e) {
+            return 0;
         }
-        return count;
     }
 
+    // Available Parts
     public void setAvailableParts(ObservableList<Part> availableParts) {
         this.availableParts = availableParts;
+    }
+
+    @FXML
+    void vwAutoPartsMouseClick(MouseEvent event) {
+        TreeItem<String> item = tvwAutoParts.getSelectionModel().getSelectedItem();
+        int position = countParent(item, 0);
+        if (position < 4) {
+            try {
+                item.setGraphic(!item.isExpanded() ?
+                        new ImageView(closeImages[position]) :
+                        new ImageView(openImages[position])
+                );
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        TreeItem<String> current = item;
+        String[] names = new String[position];
+        for (int i = 0; i < position; i++) {
+            names[i] = current.getValue();
+            current = current.getParent();
+        }
+        this.setAvailableParts(PartService.availablePartList(names));
+        this.lvwAutoParts.setItems(this.availableParts);
+        this.lvwAutoParts.refresh();
+    }
+
+    @FXML
+    void lvwAutoPartsMouseClick(MouseEvent event) {
+        Part part = lvwAutoParts.getSelectionModel().getSelectedItem();
+        if (part != null) {
+            txtQuantity.setDisable(false);
+            txtPartNumber.setText(part.getPartId() + "");
+            txtPartName.setText(part.getPartName());
+            txtUnitPrice.setText(part.getPrice() + "");
+            txtQuantity.setText("1");
+            txtSubTotal.setText(part.getPrice() + "");
+        }
     }
 
     private boolean isNumeric(String s) {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");
     }
 
+    // Add btn available parts -> selected parts
+    @FXML
+    void onClickBtnAdd(ActionEvent event) {
+        if (txtPartNumber.getText().compareTo("") != 0) {
+            checkPartAdd(event);
+            lvwSelectedParts.setItems(this.selectedParts);
+            lvwSelectedParts.refresh();
+            txtPartsTotal.setText(calculateSelectedPartTotal());
+            setCustomerDetails();
+        }
+    }
+
+    // Selected Parts & Customer View
     private String calculateSelectedPartTotal() {
         double total = 0.0;
         for (SelectedPart selectedPart : this.selectedParts) {
@@ -344,5 +335,41 @@ public class MainBoxController {
         double taxAmount = partsTotal * Double.parseDouble(txtTaxRate.getText()) / 100.0;
         txtTaxAmount.setText(taxAmount + "");
         txtOrderTotal.setText((partsTotal + taxAmount) + "");
+    }
+
+    @FXML
+    void onClickBtnNewCustomerOrder(ActionEvent event) {
+        txtSave.setText(DBUtil.findMaxId("receipt_number", "customer_order") + "");
+        txtOpen.setText(null);
+        txtTaxAmount.setText(null);
+        txtPartsTotal.setText(null);
+        txtOrderTotal.setText(null);
+        selectedParts.remove(0, selectedParts.size() - 1);
+        if (availableParts != null)
+            availableParts.remove(0, availableParts.size() - 1);
+        lvwAutoParts.setItems(null);
+        lvwSelectedParts.setItems(null);
+    }
+
+    @FXML
+    void onClickBtnOpen(ActionEvent event) {
+    }
+
+    @FXML
+    void onClickBtnSave(ActionEvent event) {
+        if (selectedParts.size() <= 0) {
+            Stage stage = (Stage) ((Node) (event).getSource()).getScene().getWindow();
+            JavaFXUtil.alertError(stage, "Customer Order Error", "Customer Oder failed", "Please select at least one part!");
+            return;
+        }
+        PartService.insertCustomerOrder(selectedParts, txtSave.getText(), txtTaxRate.getText(), txtOrderTotal.getText());
+        onClickBtnNewCustomerOrder(event);
+    }
+
+    // Close
+    @FXML
+    void onClickBtnClose(ActionEvent event) {
+        Stage stage = (Stage) btnClose.getScene().getWindow();
+        stage.close();
     }
 }

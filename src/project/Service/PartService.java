@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import project.DBUtil;
 import project.Model.Part;
+import project.Model.SelectedPart;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,5 +115,42 @@ public class PartService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void insertCartInfo(ObservableList<SelectedPart> selectedParts, int orderId) {
+        String cartsInsertQuery = "INSERT INTO cart_info(order_detail_id, part_id, quantity) VALUES("
+                + "'" + orderId + "', ";
+
+        String itemInsert;
+        for (SelectedPart selectedPart : selectedParts) {
+            itemInsert = cartsInsertQuery
+                    + "'" + selectedPart.getPart().getPartId() +"', "
+                    + "'" + selectedPart.getQuantity() +"'"
+                    + ");";
+            try {
+                DBUtil.dbExecuteUpdate(itemInsert);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void insertCustomerOrder(ObservableList<SelectedPart> selectedParts, String customerId, String taxRate, String totalAmount) {
+        int maxOrderDetailId = DBUtil.findMaxId("order_detail_id", "order_detail");
+        String orderDetailInsertQuery = "INSERT INTO order_detail VALUES( '" + maxOrderDetailId +"')";
+        String customerOrderInsertQuery = "INSERT INTO customer_order(receipt_number, tax_rate, total_amount, order_detail_id) VALUES("
+                + "'" + customerId + "',"
+                + "'" + taxRate + "', "
+                + "'" + totalAmount + "', "
+                + "'" + maxOrderDetailId + "'"
+                + ");";
+        System.out.println(maxOrderDetailId);
+        try {
+            DBUtil.dbExecuteUpdate(orderDetailInsertQuery);
+            DBUtil.dbExecuteUpdate(customerOrderInsertQuery);
+            insertCartInfo(selectedParts, maxOrderDetailId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

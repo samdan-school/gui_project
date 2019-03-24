@@ -50,8 +50,8 @@ CREATE TABLE cart_info (
 
 CREATE TABLE customer_order (
 	receipt_number INT PRIMARY KEY AUTO_INCREMENT,
-	tax_rate DECIMAL(3,3),
-	tax_amount DECIMAL(15,2),
+	tax_rate DECIMAL(10,5),
+	total_amount DECIMAL(15,2),
 	order_detail_id INT,
 	FOREIGN KEY (order_detail_id) REFERENCES order_detail(order_detail_id)
 );
