@@ -134,7 +134,7 @@
                         <Font size="10.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="txtTaxRate" alignment="TOP_RIGHT" disable="true" maxHeight="20.0" maxWidth="40.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" promptText="7.75" style="-fx-opacity: 1;" GridPane.columnIndex="6">
+                  <TextField fx:id="txtTaxRate" alignment="TOP_RIGHT" disable="true" maxHeight="20.0" maxWidth="40.0" minHeight="20.0" prefHeight="20.0" prefWidth="0.0" style="-fx-opacity: 1;" text="7.75" GridPane.columnIndex="6">
                      <font>
                         <Font size="10.0" />
                      </font>

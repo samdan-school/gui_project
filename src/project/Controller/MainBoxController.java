@@ -8,12 +8,14 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import project.DBUtil;
 import project.JavaFXUtil;
 import project.Model.Part;
 import project.Model.SelectedPart;
@@ -117,39 +119,11 @@ public class MainBoxController {
 
     @FXML
     void onClickBtnAdd(ActionEvent event) {
-        if (!txtPartNumber.getText().isEmpty() && Integer.parseInt(txtQuantity.getText()) == 0) {
-            for (SelectedPart selectedPart : this.selectedParts) {
-                if (Integer.parseInt(txtPartNumber.getText()) == selectedPart.getPart().getPartId()) {
-                    this.selectedParts.remove(selectedPart);
-                }
-                lvwSelectedParts.setItems(this.selectedParts);
-                lvwSelectedParts.refresh();
-                return;
-            }
-        }
-        if (!txtPartNumber.getText().isEmpty() && Integer.parseInt(txtQuantity.getText()) > 0) {
-            for (SelectedPart selectedPart : this.selectedParts) {
-                if (Integer.parseInt(txtPartNumber.getText()) == selectedPart.getPart().getPartId()) {
-                    selectedPart.setQuantity(Integer.parseInt(txtQuantity.getText()));
-                    selectedPart.setSubTotal(Double.parseDouble(txtSubTotal.getText()));
-                }
-                lvwSelectedParts.setItems(this.selectedParts);
-                lvwSelectedParts.refresh();
-                return;
-            }
-            for (Part part : this.parts) {
-                if (Integer.parseInt(txtPartNumber.getText()) == part.getPartId()) {
-                    this.selectedParts.add(new SelectedPart(
-                            part,
-                            Integer.parseInt(txtQuantity.getText()),
-                            Double.parseDouble(txtSubTotal.getText())
-                    ));
-                    lvwSelectedParts.setItems(this.selectedParts);
-                    lvwSelectedParts.refresh();
-                    break;
-                }
-            }
-        }
+        checkPartAdd(event);
+        lvwSelectedParts.setItems(this.selectedParts);
+        lvwSelectedParts.refresh();
+        txtPartsTotal.setText(calculateSelectedPartTotal());
+        setCustomerDetails();
     }
 
     @FXML
@@ -173,6 +147,7 @@ public class MainBoxController {
 
     @FXML
     void onClickBtnNewCustomerOrder(ActionEvent event) {
+        txtSave.setText(DBUtil.findMaxId("receipt_number", "customer_order") + "");
         txtOpen.setText(null);
         txtTaxAmount.setText(null);
         txtPartsTotal.setText(null);
@@ -215,9 +190,12 @@ public class MainBoxController {
         colQuantitySelected.setCellValueFactory(cellData -> cellData.getValue().quantityProperty());
         colSubTotalSelected.setCellValueFactory(cellData -> cellData.getValue().subTotalProperty());
 
+        // Available Quantity must be disable in start
+        txtQuantity.setDisable(true);
 
         txtQuantity.textProperty().addListener((obs, newValue, oldValue) -> {
             if (!isNumeric(txtQuantity.getText()) || txtQuantity.getText().isEmpty()) {
+                txtQuantity.setText("");
                 return;
             }
             if (txtUnitPrice.getText().compareTo("0.00") > 0) {
@@ -226,6 +204,9 @@ public class MainBoxController {
                 );
             }
         });
+
+//        this.txt
+        onClickBtnNewCustomerOrder(new ActionEvent());
     }
 
     @FXML
@@ -253,6 +234,7 @@ public class MainBoxController {
     void lvwAutoPartsMouseClick(MouseEvent event) {
         Part part = lvwAutoParts.getSelectionModel().getSelectedItem();
         if (part != null) {
+            txtQuantity.setDisable(false);
             txtPartNumber.setText(part.getPartId() + "");
             txtPartName.setText(part.getPartName());
             txtUnitPrice.setText(part.getPrice() + "");
@@ -315,5 +297,52 @@ public class MainBoxController {
 
     private boolean isNumeric(String s) {
         return s != null && s.matches("[-+]?\\d*\\.?\\d+");
+    }
+
+    private String calculateSelectedPartTotal() {
+        double total = 0.0;
+        for (SelectedPart selectedPart : this.selectedParts) {
+            total += selectedPart.getSubTotal();
+        }
+        return total + "";
+    }
+
+    private void checkPartAdd(ActionEvent event) {
+        if (txtQuantity.getText().compareTo("") == 0) {
+            Stage stage = (Stage) ((Node) (event).getSource()).getScene().getWindow();
+            JavaFXUtil.alertError(stage, "Part Add Error", "Make quantity must be positive number or number type", "Please check value");
+        } else if (Integer.parseInt(txtQuantity.getText()) == 0) {
+            for (SelectedPart selectedPart : this.selectedParts) {
+                if (Integer.parseInt(txtPartNumber.getText()) == selectedPart.getPart().getPartId()) {
+                    this.selectedParts.remove(selectedPart);
+                    return;
+                }
+            }
+        } else if (!txtPartNumber.getText().isEmpty() && Integer.parseInt(txtQuantity.getText()) > 0) {
+            for (SelectedPart selectedPart : this.selectedParts) {
+                if (Integer.parseInt(txtPartNumber.getText()) == selectedPart.getPart().getPartId()) {
+                    selectedPart.setQuantity(Integer.parseInt(txtQuantity.getText()));
+                    selectedPart.setSubTotal(Double.parseDouble(txtSubTotal.getText()));
+                    return;
+                }
+            }
+            for (Part part : this.parts) {
+                if (Integer.parseInt(txtPartNumber.getText()) == part.getPartId()) {
+                    this.selectedParts.add(new SelectedPart(
+                            part,
+                            Integer.parseInt(txtQuantity.getText()),
+                            Double.parseDouble(txtSubTotal.getText())
+                    ));
+                    return;
+                }
+            }
+        }
+    }
+
+    private void setCustomerDetails() {
+        double partsTotal = Double.parseDouble(txtPartsTotal.getText());
+        double taxAmount = partsTotal * Double.parseDouble(txtTaxRate.getText()) / 100.0;
+        txtTaxAmount.setText(taxAmount + "");
+        txtOrderTotal.setText((partsTotal + taxAmount) + "");
     }
 }

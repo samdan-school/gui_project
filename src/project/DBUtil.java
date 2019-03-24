@@ -93,4 +93,19 @@ public class DBUtil {
             dbDisconnect();
         }
     }
+
+
+    public static int findMaxId(String columnId, String tableName) {
+        int returnId = -1;
+        try {
+            ResultSet maxId = DBUtil.dbExecuteQuery("SELECT MAX(" + columnId + ") as 'max' FROM " + tableName);
+            if (maxId.next()) {
+                returnId = maxId.getInt("max");
+                returnId++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return returnId;
+    }
 }

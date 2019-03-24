@@ -1,5 +1,6 @@
 package project.Controller;
 
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -131,7 +132,7 @@ public class PartEditorController {
             this.partList.addAll(PartService.partList());
             onClickBtnClose(event);
         } catch (SQLException e) {
-            Stage stage = (Stage)((Node)(event).getSource()).getScene().getWindow();
+            Stage stage = (Stage) ((Node) (event).getSource()).getScene().getWindow();
             JavaFXUtil.alertError(stage, "Part Insert Error", "Part insertion failed", "Please check value");
             e.printStackTrace();
         }
@@ -168,7 +169,7 @@ public class PartEditorController {
 
         txtPartNumber.setDisable(true);
         txtPartNumber.setStyle("-fx-opacity: 1.0;");
-        txtPartNumber.setText("" + findMaxPartId());
+        txtPartNumber.setText("" + DBUtil.findMaxId("part_id", "part"));
     }
 
     public void setMakeList(ObservableList<String> makeList) {
@@ -185,19 +186,5 @@ public class PartEditorController {
 
     public void setPartList(ObservableList<Part> partList) {
         this.partList = partList;
-    }
-
-    public int findMaxPartId() {
-        int returnId = -1;
-        try {
-            ResultSet maxId = DBUtil.dbExecuteQuery("SELECT MAX(part_id) as 'max' FROM part");
-            if (maxId.next()) {
-                returnId = maxId.getInt("max");
-                returnId++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return returnId;
     }
 }
