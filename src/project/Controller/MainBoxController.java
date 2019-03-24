@@ -280,7 +280,7 @@ public class MainBoxController {
     // Add btn available parts -> selected parts
     @FXML
     void onClickBtnAdd(ActionEvent event) {
-        if (txtPartNumber.getText().compareTo("") != 0) {
+        if (txtPartNumber.getText() == null || txtPartNumber.getText().compareTo("") != 0) {
             checkPartAdd(event);
             lvwSelectedParts.setItems(this.selectedParts);
             lvwSelectedParts.refresh();
@@ -341,9 +341,20 @@ public class MainBoxController {
     void onClickBtnNewCustomerOrder(ActionEvent event) {
         txtSave.setText(DBUtil.findMaxId("receipt_number", "customer_order") + "");
         txtOpen.setText(null);
+        // Reset part text fields
+        txtPartNumber.setText(null);
+        txtPartName.setText(null);
+        txtQuantity.setText(null);
+        txtSubTotal.setText(null);
+        txtUnitPrice.setText(null);
+        txtQuantity.setDisable(true);
+
+        // Reset Customer text fields
         txtTaxAmount.setText(null);
         txtPartsTotal.setText(null);
         txtOrderTotal.setText(null);
+
+        // Reset Tables and Observable Lists
         selectedParts.remove(0, selectedParts.size() - 1);
         if (availableParts != null)
             availableParts.remove(0, availableParts.size() - 1);
