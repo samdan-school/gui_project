@@ -40,3 +40,22 @@ public class JavaFXUtil {
         alert.showAndWait();
     }
 }
+
+/*
+@FXML
+    void onClickBtnNewCategory(ActionEvent event) {
+        JavaFXUtil categoryUtil = new JavaFXUtil(getClass().getResource("../View/category_box.fxml"));
+        Parent categories = null;
+        try {
+            categories = categoryUtil.getLoader().load();
+            CategoryBoxController makeCtr = categoryUtil.getLoader().getController();
+            makeCtr.setCbxCategories(this.cbxCategories);
+            categoryUtil.openNewStage(categories, "New Category", 400, 150);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    .getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV)
+    .txt.getTextProperty().addListener((obs, oldV, newV))
+*/

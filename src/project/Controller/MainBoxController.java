@@ -147,7 +147,7 @@ public class MainBoxController {
         // Available Quantity must be disable in start
         txtQuantity.setDisable(true);
 
-        txtQuantity.textProperty().addListener((obs, newValue, oldValue) -> {
+        txtQuantity.textProperty().addListener((obs, oldValue,newValue) -> {
             if (!isNumeric(txtQuantity.getText()) || txtQuantity.getText().isEmpty()) {
                 txtQuantity.setText("");
                 return;

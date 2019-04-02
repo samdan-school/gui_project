@@ -2,9 +2,7 @@ package exam.Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class MainBoxController {
@@ -22,16 +20,19 @@ public class MainBoxController {
     private CheckBox cbRetailCustomer;
 
     @FXML
-    private CheckBox cbUPS;
+    private RadioButton rdUPS;
 
     @FXML
-    private CheckBox cbUSPostalAir;
+    private ToggleGroup Shipping;
 
     @FXML
-    private CheckBox cbFedExGround;
+    private RadioButton rdFedExGround;
 
     @FXML
-    private CheckBox cbFedExAir;
+    private RadioButton rdUSPostalAir;
+
+    @FXML
+    private RadioButton rdFedExAir;
 
     @FXML
     private TextField txtDescription;
@@ -71,32 +72,42 @@ public class MainBoxController {
 
     @FXML
     void initialize() {
-        txtCustomerID.textProperty().addListener((obs, oldV, newV) -> {
-            if (newV.matches("[A-Za-z]") || newV.matches("[\\W]")) {
-                txtCustomerID.setText(oldV);
-            } else
-                txtCustomerID.setText(newV.toUpperCase());
+        cbRetailCustomer.setSelected(true);
+        rdUPS.setSelected(true);
+
+        txtPartNumber.textProperty().addListener((obs, oldV, newV) -> {
+            if (!newV.matches("\\d*?")) {
+                txtPartNumber.setText(oldV);
+                return;
+            }
+        });
+
+        txtPricePerPart.textProperty().addListener((obs, oldV, newV) -> {
+            if (!newV.matches("\\d*(\\.\\d*)?")) {
+                txtPricePerPart.setText(oldV);
+                return;
+            }
+        });
+
+        txtQuantity.textProperty().addListener((obs, oldV, newV) -> {
+            if (!newV.matches("\\d*?")) {
+                txtQuantity.setText(oldV);
+                return;
+            }
         });
 
         txtState.textProperty().addListener((obs, oldV, newV) -> {
-            if (newV.matches("[\\W\\d]") || newV.length() > 2) {
-                txtState.setText(oldV);
-            } else
-                txtState.setText(newV.toUpperCase());
+//            System.out.println(calculateSalesTax(100.0));
         });
 
-        cbRetailCustomer.setSelected(true);
 
-        txtPartNumber.textProperty().addListener((obs, oldV, newV) -> {});
-
-        txtPricePerPart.textProperty().addListener((obs, oldV, newV) -> {});
-
-        txtQuantity.textProperty().addListener((obs, oldV, newV) -> {});
     }
 
     @FXML
     void onClickBtnCompute(ActionEvent event) {
-
+//        if (validData()) {
+//
+//        }
     }
 
     @FXML
@@ -108,5 +119,35 @@ public class MainBoxController {
     @FXML
     void onClickBtnNewOrder(ActionEvent event) {
 
+    }
+
+    double calculateSalesTax(double cost) {
+        double salesTax = 0.0;
+
+        if (!cbRetailCustomer.isSelected()) return salesTax;
+
+
+        switch (txtState.getText()) {
+            case "CA":
+                salesTax = 10.0;
+                break;
+            case "NY":
+            case "FL":
+                salesTax = 5.0;
+                break;
+            default:
+                salesTax = 0.0;
+        }
+
+        return cost * salesTax / 100.0;
+    }
+
+    double calculateShippingHandling() {
+        return 0.0;
+    }
+
+    boolean validData() {
+        boolean isValid = false;
+        return false;
     }
 }
