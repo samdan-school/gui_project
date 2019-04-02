@@ -1,13 +1,13 @@
-package project;
-
-import java.sql.*;
+package exam;
 
 import com.sun.rowset.CachedRowSetImpl;
+
+import java.sql.*;
 
 public class DBUtil {
     private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver ";
     private static Connection conn = null;
-    private static final String connStr = "jdbc:mysql://localhost:3306/gui_lab4";
+    private static final String connStr = "jdbc:mysql://localhost:3306/gui_exam";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

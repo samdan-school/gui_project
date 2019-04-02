@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #ffe0bb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="exam.Controller.MainBoxController">
+<AnchorPane fx:id="ap" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #ffe0bb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="exam.Controller.MainBoxController">
    <children>
       <MenuBar prefHeight="29.0" prefWidth="700.0">
         <menus>
@@ -72,7 +72,7 @@
                      </font>
                   </Label>
                   <MaskedTextField fx:id="txtCustomerID" mask="###-##-####" maxWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="txtName" focusTraversable="false" maxWidth="235.0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <TextField fx:id="txtName" maxWidth="235.0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <GridPane.margin>
                         <Insets />
                      </GridPane.margin>
@@ -226,7 +226,7 @@
                <children>
                   <TextField fx:id="txtCost" alignment="TOP_RIGHT" editable="false" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <TextField fx:id="txtSalesTax" alignment="TOP_RIGHT" editable="false" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="txtShppingAndHandling" alignment="TOP_RIGHT" editable="false" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtShippingAndHandling" alignment="TOP_RIGHT" editable="false" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="txtTotal" alignment="TOP_RIGHT" editable="false" focusTraversable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Cost:" GridPane.rowIndex="1">
                      <font>
