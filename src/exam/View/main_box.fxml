@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #ffe0bb;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="exam.Controller.MainBoxController">
+   <children>
+      <MenuBar prefHeight="29.0" prefWidth="700.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <StackPane layoutX="36.0" layoutY="35.0" prefHeight="150.0" prefWidth="350.0" style="-fx-background-color: #ffbf82;">
+         <children>
+            <GridPane maxHeight="280.0" prefHeight="290.0" prefWidth="350.0" style="-fx-border-color: #fff;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="105.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="245.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints />
+                <RowConstraints />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="    Customer ID:" textAlignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label maxWidth="150.0" prefHeight="16.0" prefWidth="64.0" text="    Name:" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label maxWidth="150.0" prefWidth="150.0" text="    State:" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtCustomerID" maxWidth="100.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtName" maxWidth="235.0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="txtState" maxWidth="40.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <CheckBox fx:id="cbRetailCustomer" mnemonicParsing="false" text="Retail Customer" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="90.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </CheckBox>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <StackPane.margin>
+                  <Insets top="10.0" />
+               </StackPane.margin>
+            </GridPane>
+         </children>
+      </StackPane>
+      <Label style="-fx-background-color: #ffbf82;" text="Customer Information" translateX="50.0" translateY="35.0" />
+      <StackPane layoutX="412.0" layoutY="35.0" prefHeight="150.0" prefWidth="275.0" style="-fx-background-color: #ffbf82;">
+         <children>
+            <GridPane prefHeight="150.0" prefWidth="252.0" style="-fx-border-color: #fff;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+               <StackPane.margin>
+                  <Insets top="10.0" />
+               </StackPane.margin>
+               <children>
+                  <RadioButton fx:id="rdUPS" mnemonicParsing="false" text="UPS" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="Shipping" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="rdFedExGround" mnemonicParsing="false" text="Fed Ex Ground" toggleGroup="$Shipping" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rdUSPostalAir" mnemonicParsing="false" text="US Postal Air" toggleGroup="$Shipping" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </RadioButton>
+                  <RadioButton fx:id="rdFedExAir" mnemonicParsing="false" text="Fed Ex Air" toggleGroup="$Shipping" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </RadioButton>
+               </children>
+            </GridPane>
+            <Label style="-fx-background-color: #ffbf82;" text="Shipping" translateX="-100.0" translateY="-65.0" />
+         </children>
+      </StackPane>
+      <StackPane layoutX="36.0" layoutY="193.0" prefHeight="150.0" prefWidth="350.0" style="-fx-background-color: #ffbf82;">
+         <children>
+            <GridPane maxHeight="280.0" prefHeight="142.0" prefWidth="350.0" style="-fx-border-color: #fff;">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="169.0" minWidth="10.0" prefWidth="105.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="259.0" minWidth="10.0" prefWidth="245.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints />
+                  <RowConstraints />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="    Part Number:" textAlignment="CENTER" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label maxWidth="150.0" prefHeight="16.0" prefWidth="64.0" text="    Description:" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label maxWidth="150.0" prefWidth="150.0" text="    Price per part" GridPane.rowIndex="5">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtPartNumber" maxWidth="100.0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="txtDescription" maxWidth="235.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="txtPricePerPart" alignment="TOP_RIGHT" maxWidth="100.0" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <TextField fx:id="txtQuantity" alignment="TOP_RIGHT" maxWidth="40.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="195.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <Label text="Quantity:" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <GridPane.margin>
+                        <Insets left="120.0" />
+                     </GridPane.margin>
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="cbOversize" mnemonicParsing="false" text="Oversize Container?" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font size="12.0" />
+                     </font></CheckBox>
+               </children>
+               <StackPane.margin>
+                  <Insets top="10.0" />
+               </StackPane.margin>
+            </GridPane>
+            <Label style="-fx-background-color: #ffbf82;" text="Part Ordered" translateX="-120.0" translateY="-65.0" />
+         </children>
+      </StackPane>
+      <StackPane layoutX="412.0" layoutY="193.0" prefHeight="150.0" prefWidth="275.0" style="-fx-background-color: #ffbf82;">
+         <children>
+            <GridPane prefHeight="150.0" prefWidth="248.0" style="-fx-border-color: #fff;">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="txtCost" alignment="TOP_RIGHT" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txtSalesTax" alignment="TOP_RIGHT" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txtShppingAndHandling" alignment="TOP_RIGHT" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txtTotal" alignment="TOP_RIGHT" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <Label text="Cost:" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Sales Tax:" GridPane.rowIndex="2">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Shipping &amp; Handling:" GridPane.rowIndex="3">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+                  <Label text="Total:" GridPane.rowIndex="4">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="10.0" right="10.0" />
+               </padding>
+               <StackPane.margin>
+                  <Insets top="10.0" />
+               </StackPane.margin>
+            </GridPane>
+            <Label style="-fx-background-color: #ffbf82;" text="Output" translateX="-100.0" translateY="-65.0" />
+         </children>
+      </StackPane>
+      <Button fx:id="btnCompute" layoutX="36.0" layoutY="347.0" mnemonicParsing="false" onAction="#onClickBtnCompute" prefWidth="100.0" style="-fx-background-color: #ffbf82;" text="Compute" />
+      <Button fx:id="btnNewOrder" layoutX="153.0" layoutY="347.0" mnemonicParsing="false" onAction="#onClickBtnNewOrder" prefWidth="100.0" style="-fx-background-color: #ffbf82;" text="New Order" />
+      <Button fx:id="btnExit" layoutX="587.0" layoutY="347.0" maxWidth="100.0" mnemonicParsing="false" onAction="#onClickBtnExit" prefWidth="100.0" style="-fx-background-color: #ffbf82;" text="Exit" />
+   </children>
+</AnchorPane>
